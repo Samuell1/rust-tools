@@ -1,0 +1,16 @@
+query allCrates($search: String, $orderBy: LootOrderBy) {
+  allCrates (orderBy: name_ASC) {
+    id
+    name
+    file {
+      id
+      url
+    }
+    loots (filter: { OR: [{ dataId_contains: $search }, { name_contains: $search }] }, orderBy: $orderBy) {
+      dataId
+      id
+      name
+      percentage
+    }
+  }
+}
