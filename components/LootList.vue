@@ -86,10 +86,11 @@ export default {
 
 .items {
   user-select: none;
+  overflow-x: auto;
+  overflow: -moz-scrollbars-none; // FFvvv
   -ms-overflow-style: none;  // IE 10+
-  overflow: -moz-scrollbars-none;
   &::-webkit-scrollbar {
-      display: none;  // Safari and Chrome
+    display: none;  // Safari and Chrome
   }
   &.moving {
     cursor: w-resize;
