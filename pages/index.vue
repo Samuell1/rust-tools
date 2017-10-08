@@ -18,9 +18,11 @@
       </div>
     </div>
     <div v-for="crate in allCrates" :key="crate.id" class="crate">
+      <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }">
+        <span>{{ crate.normalName ? crate.normalName : normalCase(crate.name) }}</span>
+      </div>
       <template v-if="crate.loots.length">
-        <h3>{{ normalCase(crate.name) }}</h3>
-        <loot-list :crate="crate" ></loot-list>
+        <loot-list class="list" :crate="crate"></loot-list>
       </template>
     </div>
     <div v-show="loading === 0" class="loading">
@@ -61,9 +63,9 @@ export default {
     }
   },
   methods: {
-    parseName (name) {
-      const split = name.split('.')
-      return split.map((key) => this.capitalizeFirstLetter(key)).join(' ')
+    getImage (url, width = 200, height = 200) {
+      const imageSize = width + 'x' + height
+      return url.replace('https://files.graph.cool/', 'https://images.graph.cool/') + '/' + imageSize
     },
     normalCase (name) {
       const split = name.split(/_|-/)
@@ -76,7 +78,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import 'assets/variables.scss';
 
 header {
@@ -100,8 +102,28 @@ header {
 
 .crate {
   margin: 16px 0;
-  h3 {
-    margin-bottom: 16px;
+  display: flex;
+  overflow: hidden;
+  .name {
+    background-size: cover;
+    background-position: center center;
+    width: 128px;
+    height: 128px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    margin-right: 10px;
+    color: $secondaryText;
+    font-weight: 500;
+    text-shadow: 0px 0px 3px #000;
+  }
+  .list {
+    overflow: hidden;
+    width: 100%;
   }
 }
 

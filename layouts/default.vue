@@ -6,9 +6,10 @@
 
 <style lang="scss" scoped>
 .container {
-  width: 1300px;
-  max-width: 1300px;
+  width: 100%;
+  max-width: 1400px;
   margin: auto;
+  padding: 0 16px;
   min-height: 100vh;
 }
 </style>

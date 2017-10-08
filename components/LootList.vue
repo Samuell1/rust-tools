@@ -54,10 +54,6 @@ export default {
       const split = name.split('.')
       return split.map((key) => this.capitalizeFirstLetter(key)).join(' ')
     },
-    normalCase (name) {
-      const split = name.split(/_|-/)
-      return split.map((key) => this.capitalizeFirstLetter(key)).join(' ')
-    },
     capitalizeFirstLetter (string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
     }
@@ -65,7 +61,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import 'assets/variables.scss';
 
 .gradients {
@@ -146,7 +142,7 @@ export default {
 }
 
 .list-enter-active, .list-leave-active {
-  transition: all 1s;
+  transition: all .3s;
 }
 .list-enter, .list-leave-to {
   opacity: 0;
