@@ -9,26 +9,21 @@
     </header>
     <div class="search">
       <input type="text" v-model="search" placeholder="Search...">
+      <svg v-if="loading > 0" class="spinner" width="16px" height="16px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+      </svg>
     </div>
     <div class="info">
       <small>(Press on list of items and move left, right to move long list of items.)</small>
-
       <div class="order">
         <button @click="orderByChance = !orderByChance" :class="{ 'active' : orderByChance }">Order by Chance</button>
       </div>
     </div>
-    <div v-for="crate in allCrates" :key="crate.id" class="crate">
+    <div v-for="crate in allCrates" :key="crate.id" v-if="crate.loots.length" class="crate">
       <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }">
         <span>{{ crate.normalName ? crate.normalName : normalCase(crate.name) }}</span>
       </div>
-      <template v-if="crate.loots.length">
-        <loot-list class="list" :crate="crate"></loot-list>
-      </template>
-    </div>
-    <div v-show="loading === 0" class="loading">
-      <svg class="spinner" width="30px" height="30px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
-      </svg>
+      <loot-list class="list" :crate="crate"></loot-list>
     </div>
   </div>
 </template>
@@ -147,25 +142,27 @@ header {
   }
 }
 
-.loading {
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .search {
+  position: relative;
+  margin: 16px 0;
+  max-width: 300px;
   input {
     background: $secondaryBackground;
     border: 0px;
-    padding: 8px 12px;
+    padding: 8px 26px 8px 12px;
     width: 100%;
-    max-width: 300px;
-    margin: 16px 0;
     color: $secondaryText;
     &:focus {
       background: lighten($secondaryBackground, 5%);
     }
+  }
+  .spinner {
+    position: absolute;
+    top: 9px;
+    right: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>
