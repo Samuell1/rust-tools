@@ -28,7 +28,12 @@ module.exports = {
       default: '~/apollo/network-interfaces/default.js'
     }
   },
-  modules: ['@nuxtjs/apollo'],
+  modules: [
+    '@nuxtjs/apollo',
+    ['@nuxtjs/google-analytics', {
+      ua: 'UA-108008952-1'
+    }]
+  ],
   build: {
     extractCSS: true,
     extend (config, ctx) {
