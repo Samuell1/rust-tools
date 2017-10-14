@@ -31,7 +31,7 @@ module.exports = {
   modules: [
     '@nuxtjs/apollo',
     ['@nuxtjs/google-analytics', {
-      ua: 'UA-108008952-1'
+      ua: 'UA-108014756-1'
     }]
   ],
   build: {
