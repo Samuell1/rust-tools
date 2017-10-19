@@ -36,7 +36,8 @@ export default {
   },
   computed: {
     maxPercentage () {
-      return this.crate.loots.reduce((prev, current) => (prev.percentage > current.percentage) ? prev.percentage : current.percentage)
+      const percentages = this.crate.loots.map((item) => item.percentage)
+      return Math.max(...percentages)
     }
   },
   mounted () {
