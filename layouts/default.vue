@@ -2,7 +2,7 @@
   <div class="container">
     <nuxt/>
     <footer>
-      Created by <a href="https://github.com/Samuell1">Samuell</a>. Images are used from Rust Wiki and <a href="https://rustlabs.com">Rustlabs.com</a>
+      Created by <a href="https://github.com/Samuell1">Samuell</a>. Images and informations are used from Rust Wiki and <a href="https://rustlabs.com">Rustlabs.com</a>
     </footer>
   </div>
 </template>

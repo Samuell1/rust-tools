@@ -21,7 +21,7 @@
     </div>
     <div v-for="crate in allCrates" :key="crate.id" v-if="crate.loots.length" class="crate">
       <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }">
-        <span>{{ crate.normalName ? crate.normalName : normalCase(crate.name) }}</span>
+        <span>{{ crate.name }}</span>
       </div>
       <loot-list class="list" :crate="crate"></loot-list>
     </div>
@@ -61,13 +61,6 @@ export default {
     getImage (url, width = 200, height = 200) {
       const imageSize = width + 'x' + height
       return url.replace('https://files.graph.cool/', 'https://images.graph.cool/') + '/' + imageSize
-    },
-    normalCase (name) {
-      const split = name.split(/_|-/)
-      return split.map((key) => this.capitalizeFirstLetter(key)).join(' ')
-    },
-    capitalizeFirstLetter (string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
     }
   }
 }

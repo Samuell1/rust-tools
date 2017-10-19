@@ -2,7 +2,6 @@ query allCrates($search: String, $orderBy: LootOrderBy) {
   allCrates (orderBy: name_ASC) {
     id
     name
-    normalName
     file {
       id
       url
@@ -12,6 +11,8 @@ query allCrates($search: String, $orderBy: LootOrderBy) {
       id
       name
       percentage
+      amount
+      blueprint
     }
   }
 }

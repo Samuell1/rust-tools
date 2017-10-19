@@ -3,9 +3,15 @@
     <div ref="items" class="items" :class="{ 'moving' : scroll.enabled }">
       <transition-group name="list" class="transition">
         <div class="item" v-for="loot in crate.loots" :key="loot.id">
-          <span v-if="loot.percentage && loot.percentage > 1" class="percentage" :class="{ 'green' : loot.percentage > 50, 'blue' : loot.percentage < 50 }"><span>{{ loot.percentage }}</span></span>
-          <div class="image" :style="{ backgroundImage: `url(https://rustlabs.com/img/items180/${loot.dataId}.png)` }"></div>
-          <div class="title">{{ loot.name ? loot.name : parseName(loot.dataId) }}</div>
+          <div class="info">
+            <span v-if="loot.amount" class="amount">{{ loot.amount }}</span>
+            <span v-if="loot.percentage" class="percentage" :class="{ 'green' : loot.percentage >= maxPercentage }">{{ loot.percentage }}%</span>
+          </div>
+          <div class="image">
+            <div class="icon" :style="{ backgroundImage: `url(https://rustlabs.com/img/items180/${loot.dataId}.png)` }"></div>
+            <div v-if="loot.blueprint" class="blueprint"></div>
+          </div>
+          <div class="title">{{ loot.name }}</div>
         </div>
       </transition-group>
     </div>
@@ -28,6 +34,11 @@ export default {
       }
     }
   },
+  computed: {
+    maxPercentage () {
+      return this.crate.loots.reduce((prev, current) => (prev.percentage > current.percentage) ? prev.percentage : current.percentage)
+    }
+  },
   mounted () {
     this.$refs.items.addEventListener('mousedown', (event) => {
       this.scroll.enabled = true
@@ -48,15 +59,6 @@ export default {
         this.scroll.savedPosition = this.$refs.items.scrollLeft
       }
     })
-  },
-  methods: {
-    parseName (name) {
-      const split = name.split('.')
-      return split.map((key) => this.capitalizeFirstLetter(key)).join(' ')
-    },
-    capitalizeFirstLetter (string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
-    }
   }
 }
 </script>
@@ -111,23 +113,32 @@ export default {
   position: relative;
   margin-right: 2px;
   flex: 0 0 120px;
-  .percentage {
+  .info {
     position: absolute;
     top: 6px;
     right: 6px;
-    height: 25px;
-    width: 25px;
-    font-size: 12px;
-    border-radius: 16px;
-    color: $white;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    &.green {
-      background: $primary;
+    opacity: .4;
+    span {
+      background: $gray;
+      color: $white;
+      font-size: 10px;
+      border-radius: 3px;
+      padding: 2px 4px;
+      margin-left: 2px;
+      &.percentage {
+        background: darken($secondary, 10%);
+        &.green {
+          background: darken($primary, 10%);
+        }
+      }
     }
-    &.blue {
-      background: $secondary;
+  }
+  &:hover {
+    .info {
+      opacity: 1;
     }
   }
   .title {
@@ -135,10 +146,28 @@ export default {
     font-size: 14px;
   }
   .image {
-    background-size: contain;
+    position: relative;
     margin: 8px;
     width: 60px;
     height: 60px;
+    .icon {
+      position: relative;
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .blueprint {
+      position: absolute;
+      background: url(/blueprint.png) center center no-repeat;
+      background-size: contain;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
   }
 }
 
