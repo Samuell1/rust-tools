@@ -1,0 +1,6 @@
+query allChangelogs {
+  allChangelogs {
+    date
+    description
+  }
+}

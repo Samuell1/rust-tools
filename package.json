@@ -15,7 +15,8 @@
   "dependencies": {
     "@nuxtjs/apollo": "^2.1.1",
     "@nuxtjs/google-analytics": "^1.0.0",
-    "nuxt": "^1.0.0-rc11"
+    "nuxt": "^1.0.0-rc11",
+    "timeago.js": "^3.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
