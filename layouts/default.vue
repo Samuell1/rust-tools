@@ -1,5 +1,12 @@
 <template>
   <div class="container">
+    <header>
+      <img src="/box.png" alt="Rust Loot Tables">
+      <div>
+        <h1>Rust Loot Tables</h1>
+        <p>List of loot tables for various crates, boxes, barrels, piles.</p>
+      </div>
+    </header>
     <nuxt/>
     <footer>
       Created by <a href="https://github.com/Samuell1">Samuell</a>. Images and informations are used from Rust Wiki and <a href="https://rustlabs.com">Rustlabs.com</a>
