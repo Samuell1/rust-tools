@@ -15,8 +15,8 @@
         </div>
       </transition-group>
     </div>
-    <div v-show="scroll.savedPosition" class="gradient-left"></div>
-    <div class="gradient-right"></div>
+    <div v-show="scroll.start" class="gradient-left"></div>
+    <div v-show="!scroll.end" class="gradient-right"></div>
   </div>
 </template>
 
@@ -30,7 +30,8 @@ export default {
         enabled: false,
         clientX: 0,
         scrollLeft: 0,
-        savedPosition: 0
+        start: 0,
+        end: false
       }
     }
   },
@@ -44,8 +45,8 @@ export default {
     this.$refs.items.addEventListener('mousedown', (event) => {
       this.scroll.enabled = true
       this.scroll.scrollLeft = this.$refs.items.scrollLeft
-      this.scroll.savedPosition = this.$refs.items.scrollLeft
-      this.scroll.clientX = event.clientX
+      this.scroll.start = this.$refs.items.scrollLeft
+      this.scroll.clientX = event.pageX
     })
     this.$refs.items.addEventListener('mouseup', () => {
       this.scroll.enabled = false
@@ -56,8 +57,9 @@ export default {
     this.$refs.items.addEventListener('mousemove', (event) => {
       event.preventDefault()
       if (this.scroll.enabled) {
-        this.$refs.items.scrollLeft = this.scroll.scrollLeft + this.scroll.clientX - event.clientX
-        this.scroll.savedPosition = this.$refs.items.scrollLeft
+        this.$refs.items.scrollLeft = this.scroll.scrollLeft + this.scroll.clientX - event.pageX
+        this.scroll.start = this.$refs.items.scrollLeft
+        this.scroll.end = this.$refs.items.scrollWidth - this.$refs.items.scrollLeft === this.$refs.items.clientWidth
       }
     })
   }
@@ -71,6 +73,7 @@ export default {
   position: relative;
   .gradient-right {
     position: absolute;
+    z-index: 5;
     top: 0px;
     right: 0px;
     width: 100px;
@@ -79,6 +82,7 @@ export default {
   }
   .gradient-left {
     position: absolute;
+    z-index: 5;
     top: 0px;
     left: 0px;
     width: 100px;
