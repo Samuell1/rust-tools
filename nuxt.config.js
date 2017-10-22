@@ -5,10 +5,13 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'List of loot tables for various crates, boxes, barrels, piles.' }
+      { hid: 'description', name: 'description', content: 'List of loot tables for various crates, boxes, barrels, piles.' },
+      { hid: 'keywords', name: 'keywords', content: 'rust, playrust, crates, boxes, barrels, loot, items, tables' },
+
+      { property: 'og:image', content: 'http://rust.vue.sk/box.png' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/box.png' }
+      { rel: 'icon', type: 'image/ico', href: 'http://rust.vue.sk/favicon.ico' }
     ]
   },
   loading: true,
