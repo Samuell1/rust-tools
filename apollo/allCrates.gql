@@ -14,5 +14,8 @@ query allCrates($search: String, $orderBy: LootOrderBy) {
       amount
       blueprint
     }
+    lootCount: _lootsMeta {
+      count
+    }
   }
 }

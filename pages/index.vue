@@ -24,6 +24,7 @@
       <div v-for="crate in allCrates" :key="crate.id" v-if="crate.loots.length" class="crate">
         <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }">
           <span>{{ crate.name }}</span>
+          <span class="count">{{ crate.lootCount.count }} items</span>
         </div>
         <loot-list class="list" :crate="crate"></loot-list>
       </div>
@@ -137,6 +138,17 @@ header {
   .list {
     overflow: hidden;
     width: 100%;
+  }
+  .count {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: transparentize($black, .5);
+    color: $white;
+    font-size: 10px;
+    border-radius: 3px;
+    padding: 2px 4px;
+    margin-left: 2px;
   }
 }
 
