@@ -1,17 +1,8 @@
 <template>
   <div>
-    <header>
-      <img src="/box.png" alt="Rust Loot Tables">
-      <div>
-        <h1>Rust Loot Tables</h1>
-        <p>List of loot tables for various crates, boxes, barrels, piles.</p>
-      </div>
-    </header>
     <div class="search">
       <input type="text" v-model="search" placeholder="Search...">
-      <svg v-if="loading > 0" class="spinner" width="16px" height="16px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
-      </svg>
+      <spinner v-if="search && loading > 0"></spinner>
     </div>
     <div class="info">
       <small>(Press on list of items and move left, right to move long list of items.)</small>
@@ -19,11 +10,16 @@
         <button @click="orderByChance = !orderByChance" :class="{ 'active' : orderByChance }">Order by Chance</button>
       </div>
     </div>
-    <div v-for="crate in allCrates" :key="crate.id" v-if="crate.loots.length" class="crate">
-      <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }">
-        <span>{{ crate.name }}</span>
+    <template v-if="search || loading === 0">
+      <div v-for="crate in allCrates" :key="crate.id" v-if="crate.loots.length" class="crate">
+        <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }">
+          <span>{{ crate.name }}</span>
+        </div>
+        <loot-list class="list" :crate="crate"></loot-list>
       </div>
-      <loot-list class="list" :crate="crate"></loot-list>
+    </template>
+    <div class="loading" v-else>
+      <spinner :size="30"></spinner>
     </div>
   </div>
 </template>
@@ -32,6 +28,7 @@
 import allCrates from '~/apollo/allCrates.gql'
 
 import LootList from '~/components/LootList'
+import Spinner from '~/components/Spinner'
 
 export default {
   data () {
@@ -43,7 +40,8 @@ export default {
     }
   },
   components: {
-    LootList
+    LootList,
+    Spinner
   },
   apollo: {
     allCrates: {
@@ -54,7 +52,11 @@ export default {
           orderBy: this.orderByChance ? 'percentage_DESC' : 'name_DESC'
         }
       },
-      loadingKey: 'loading'
+      watchLoading (isLoading, countModifier) {
+        this.$nextTick(() => {
+          this.loading += countModifier
+        })
+      }
     }
   },
   methods: {
@@ -113,6 +115,13 @@ header {
     overflow: hidden;
     width: 100%;
   }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 160px;
 }
 
 .info {
