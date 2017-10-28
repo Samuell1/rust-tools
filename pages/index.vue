@@ -79,6 +79,9 @@ export default {
     },
     lastChange: {
       query: allChangelogs,
+      variables: {
+        orderBy: 'date_DESC'
+      },
       update: (data) => data.allChangelogs[0]
     }
   },
