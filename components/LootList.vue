@@ -2,7 +2,7 @@
   <div class="gradients">
     <div ref="items" class="items" :class="{ 'moving' : scroll.enabled }">
       <transition-group name="list" class="transition">
-        <div class="item" v-for="loot in crate.loots" :key="loot.id">
+        <div class="item" v-for="loot in crate.loots" :key="loot.id" @dblclick="openRustLabs(loot)">
           <div class="info">
             <span v-if="loot.amount" class="amount">{{ loot.amount }}</span>
             <span v-if="loot.percentage" class="percentage" :class="{ 'green' : loot.percentage >= maxPercentage }">{{ loot.percentage }}%</span>
@@ -62,6 +62,17 @@ export default {
         this.scroll.end = this.$refs.items.scrollWidth - this.$refs.items.scrollLeft === this.$refs.items.clientWidth
       }
     })
+  },
+  methods: {
+    openRustLabs (loot) {
+      window.open(`https://rustlabs.com/item/${this.slugify(loot.name)}`, '_blank')
+    },
+    slugify (text) {
+      return text.toString().toLowerCase().trim()
+        .replace(/[\s_-]+/g, '-') // swap any length of whitespace, underscore, hyphen characters with a single -
+        .replace(/^-+|-+$/g, '') // remove leading, trailing -
+        .replace('-blueprint', '') // remove blueprint from name
+    }
   }
 }
 </script>
@@ -142,6 +153,7 @@ export default {
     }
   }
   &:hover {
+    background: lighten($secondaryBackground, 2%);
     .info {
       opacity: 1;
     }
