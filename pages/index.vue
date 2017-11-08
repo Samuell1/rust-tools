@@ -15,19 +15,25 @@
       </div>
     </header>
     <div class="info">
-      <small>(Press on list of items and move left, right to move long list of items.)</small>
+      <small>Press on list of items and move left, right to move long list of items. Double click on specific item it opens wiki.</small>
       <div class="lastupdate">
-        Last updated {{ lastUpdate || '...' }}
+        Last updated {{ lastUpdate }}
       </div>
     </div>
     <template v-if="search || loading === 0">
       <div v-for="crate in allCrates" :key="crate.id" v-if="crate.loots.length" class="crate">
-        <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }">
+        <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }" @click="openModal(crate)">
           <span>{{ crate.name }}</span>
           <span class="count">{{ crate.lootCount.count }} items</span>
         </div>
         <loot-list class="list" :crate="crate"></loot-list>
       </div>
+      <modal ref="modal">
+        <div v-if="selectedCrate">
+          <h3>{{ selectedCrate.name }}</h3>
+          <p>{{ selectedCrate.description }}</p>
+        </div>
+      </modal>
     </template>
     <div class="loading" v-else>
       <spinner :size="30"></spinner>
@@ -41,6 +47,8 @@ import timeago from 'timeago.js'
 import allChangelogs from '~/apollo/allChangelogs.gql'
 import allCrates from '~/apollo/allCrates.gql'
 
+import Modal from '~/components/Modal'
+
 import LootList from '~/components/LootList'
 import Spinner from '~/components/Spinner'
 
@@ -50,16 +58,20 @@ export default {
       search: '',
       orderByChance: false,
 
+      selectedCrate: null,
+      showModal: false,
+
       loading: 0
     }
   },
   components: {
     LootList,
-    Spinner
+    Spinner,
+    Modal
   },
   computed: {
     lastUpdate () {
-      return this.lastChange && timeago().format(this.lastChange.date)
+      return this.lastChange ? timeago().format(this.lastChange.date) : '...'
     }
   },
   apollo: {
@@ -89,6 +101,10 @@ export default {
     getImage (url, width = 200, height = 200) {
       const imageSize = width + 'x' + height
       return url.replace('https://files.graph.cool/', 'https://images.graph.cool/') + '/' + imageSize
+    },
+    openModal (crate) {
+      this.selectedCrate = crate
+      this.$refs.modal.open()
     }
   }
 }
@@ -137,6 +153,9 @@ header {
     color: $secondaryText;
     font-weight: 500;
     text-shadow: 0px 0px 3px #000;
+    &:hover {
+      cursor: pointer;
+    }
   }
   .list {
     overflow: hidden;

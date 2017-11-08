@@ -2,6 +2,7 @@ query allCrates($search: String, $orderBy: LootOrderBy) {
   allCrates (orderBy: name_ASC) {
     id
     name
+    description
     file {
       id
       url
