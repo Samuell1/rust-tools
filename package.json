@@ -5,7 +5,7 @@
   "author": "Samuell",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "backpack dev",
     "build": "nuxt build",
     "build-server": "backpack build",
     "start": "nuxt start",
