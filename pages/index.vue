@@ -87,14 +87,16 @@ export default {
         this.$nextTick(() => {
           this.loading += countModifier
         })
-      }
+      },
+      prefetch: ({ route }) => ({ search: '', orderBy: 'name_DESC' })
     },
     lastChange: {
       query: allChangelogs,
       variables: {
         orderBy: 'date_DESC'
       },
-      update: (data) => data.allChangelogs[0]
+      update: (data) => data.allChangelogs[0],
+      prefetch: ({ route }) => ({ orderBy: 'date_DESC' })
     }
   },
   methods: {
