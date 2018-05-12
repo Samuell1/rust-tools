@@ -15,7 +15,9 @@
       </div>
     </header>
     <div class="info">
-      <small>Press on list of items and move left, right to move long list of items. Double click on specific item it opens wiki.</small>
+      <small>
+        Double click on specific item it opens wiki. (Green marked items has max percentage chance, Blue marked items has min percentage chance)
+        </small>
       <div class="lastupdate">
         Last updated {{ lastUpdate }}
       </div>
@@ -136,7 +138,7 @@ header {
 }
 
 .crate {
-  margin: 16px 0;
+  margin: 24px 0;
   display: flex;
   overflow: hidden;
   .name {
@@ -212,6 +214,7 @@ header {
       padding: 8px 26px 8px 12px;
       width: 100%;
       color: $secondaryText;
+      font-size: 14px;
       &:focus {
         background: lighten($secondaryBackground, 5%);
       }

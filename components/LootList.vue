@@ -2,10 +2,10 @@
   <div class="gradients">
     <div ref="items" class="items" :class="{ 'moving' : scroll.enabled }">
       <transition-group name="list" class="transition">
-        <div class="item" v-for="loot in crate.loots" :key="loot.id" @dblclick="openRustLabs(loot)">
+        <div v-for="loot in crate.loots" :key="loot.id" :class="['item', { 'green' : loot.percentage >= maxPercentage, 'blue' : loot.percentage <= minPercentage }]" @dblclick="openRustLabs(loot)">
           <div class="info">
             <span v-if="loot.amount" class="amount">{{ loot.amount }}</span>
-            <span v-if="loot.percentage" class="percentage" :class="{ 'green' : loot.percentage >= maxPercentage }">{{ loot.percentage }}%</span>
+            <span v-if="loot.percentage" class="percentage">{{ loot.percentage }}%</span>
           </div>
           <div class="image">
             <div class="icon" :style="{ backgroundImage: `url(https://rustlabs.com/img/items180/${loot.dataId}.png)` }"></div>
@@ -39,9 +39,17 @@ export default {
     maxPercentage () {
       const percentages = this.crate.loots.map((item) => item.percentage)
       return Math.max(...percentages)
+    },
+    minPercentage () {
+      const percentages = this.crate.loots.map((item) => item.percentage)
+      return Math.min(...percentages)
     }
   },
   mounted () {
+    // recalculate right shadow
+    this.scroll.end = this.$refs.items.scrollWidth - this.$refs.items.scrollLeft === this.$refs.items.clientWidth
+
+    // detect mouse movement for smaller displays
     this.$refs.items.addEventListener('mousedown', (event) => {
       this.scroll.enabled = true
       this.scroll.scrollLeft = this.$refs.items.scrollLeft
@@ -115,6 +123,9 @@ export default {
   }
   .transition {
     display: flex;
+    @media screen and (min-width: 1024px) {
+      flex-flow: wrap;
+    }
   }
 }
 
@@ -127,8 +138,14 @@ export default {
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-right: 2px;
+  margin: 0 2px 2px 0;
   flex: 0 0 120px;
+  &.green {
+    background:#202721;
+  }
+  &.blue {
+    background:#202027;
+  }
   .info {
     position: absolute;
     top: 6px;
@@ -136,7 +153,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    opacity: .4;
+    opacity: .5;
     span {
       background: $gray;
       color: $white;
@@ -146,21 +163,17 @@ export default {
       margin-left: 2px;
       &.percentage {
         background: darken($secondary, 10%);
-        &.green {
-          background: darken($primary, 10%);
-        }
       }
     }
   }
   &:hover {
-    background: lighten($secondaryBackground, 2%);
-    .info {
-      opacity: 1;
-    }
+    transition: none;
+    box-shadow: inset 0 0 0px 1px $primaryText;
   }
   .title {
     text-align: center;
     font-size: 14px;
+    white-space: pre-wrap;
   }
   .image {
     position: relative;
