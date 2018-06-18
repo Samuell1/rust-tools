@@ -16,7 +16,7 @@ router.get('/find/:query', async ({ params }, res, next) => {
         }
       }
     `, {
-      search: params.query
+      search: decodeURIComponent(params.query)
     })
 
   if (!search.allLoots) {
