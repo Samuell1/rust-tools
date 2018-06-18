@@ -21,7 +21,7 @@ router.get('/find/:query', async ({ params }, res, next) => {
       })
 
     if (!search.allLoots.length) {
-      return res.send(`Nothing founded :(`)
+      return res.send(`Nothing found :( `)
     }
 
     const { allLoots } = await client.request(`
