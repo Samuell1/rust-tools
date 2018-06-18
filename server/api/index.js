@@ -1,12 +1,12 @@
 import { Router } from 'express'
 
 import decay from './decay'
-import find from './find'
+import findLoot from './findLoot'
 
 const router = Router()
 
 // Routes
 router.use(decay)
-router.use(find)
+router.use(findLoot)
 
 export default router
