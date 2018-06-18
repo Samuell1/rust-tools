@@ -39,10 +39,10 @@ router.get('/find/:query', async ({ params }, res, next) => {
 
   let items = []
   allLoots.forEach(item => {
-    items.push(`${item.name} > ${item.crate.name}(${item.percentage}%)`)
+    items.push(`${item.crate.name}(${item.percentage}%)`)
   })
 
-  res.send(`${items.join(', ')}`)
+  res.send(`${search.allLoots[0].name} > ${items.join(', ')}`)
 })
 
 export default router
