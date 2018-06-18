@@ -25,24 +25,28 @@ const table = {
   }
 }
 
-router.get('/decay/:type/:hp', function (req, res, next) {
-  const wallType = req.params.type.toLowerCase()
+router.get('/decay/:type/:hp', function ({ params }, res, next) {
+  if (!params.type && !params.hp) {
+    return res.send(`Usage: !decay [type] [hp]`)
+  }
+
+  const wallType = params.type.toLowerCase()
 
   if (table[wallType] === undefined) {
-    res.send(`Type can be only: ${Object.keys(table).join(', ')}`)
+    return res.send(`Type can be only: ${Object.keys(table).join(', ')}`)
   }
-  if (isNaN(req.params.hp)) {
-    res.send(`Hp can be only number.`)
+  if (isNaN(params.hp)) {
+    return res.send(`Hp can be only number.`)
   }
 
   const wall = table[wallType]
   const decayRateMinute = (wall.hp / wall.decayTime) / 60
-  const time = (req.params.hp / decayRateMinute).toFixed(2)
+  const time = (params.hp / decayRateMinute).toFixed(2)
 
   const hours = Math.floor(time / 60)
   const minutes = time % 60
 
-  res.send(`${hours ? `${hours} hours` : ``} ${minutes} minutes`)
+  res.send(`${hours ? `${hours} hours` : ``} ${minutes} minutes (${wallType}, ${params.hp})`)
 })
 
 export default router
