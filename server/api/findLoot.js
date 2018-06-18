@@ -9,21 +9,22 @@ router.get('/find/:query', async ({ params }, res, next) => {
     return res.send(`Please write name of a item!`)
   }
 
-  const search = await client.request(`
+  try {
+    const search = await client.request(`
       query allLoots($search: String) {
         allLoots(filter: {OR: [{dataId_contains: $search}, {name_starts_with: $search}]}, first: 1) {
           name
         }
       }
-    `, {
-      search: decodeURIComponent(params.query)
-    })
+      `, {
+        search: decodeURIComponent(params.query)
+      })
 
-  if (!search.allLoots) {
-    return res.send(`Nothing founded :(`)
-  }
+    if (!search.allLoots.length) {
+      return res.send(`Nothing founded :(`)
+    }
 
-  const { allLoots } = await client.request(`
+    const { allLoots } = await client.request(`
       query allLoots($search: String) {
         allLoots(filter: {OR: [{dataId_contains: $search}, {name_starts_with: $search}]}, first: 3) {
           name
@@ -33,16 +34,19 @@ router.get('/find/:query', async ({ params }, res, next) => {
           }
         }
       }
-    `, {
-      search: search.allLoots[0].name
+      `, {
+        search: search.allLoots[0].name
+      })
+
+    let items = []
+    allLoots.forEach(item => {
+      items.push(`${item.crate.name}(${item.percentage}%)`)
     })
 
-  let items = []
-  allLoots.forEach(item => {
-    items.push(`${item.crate.name}(${item.percentage}%)`)
-  })
-
-  res.send(`${search.allLoots[0].name} > ${items.join(', ')}`)
+    res.send(`${search.allLoots[0].name} > ${items.join(', ')}`)
+  } catch (error) {
+    return res.send(`Something went wrong.`)
+  }
 })
 
 export default router
