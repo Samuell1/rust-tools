@@ -12,7 +12,7 @@ router.get('/find/:query', async ({ params }, res, next) => {
   try {
     const search = await client.request(`
       query allLoots($search: String) {
-        allLoots(filter: {OR: [{dataId_contains: $search}, {name_starts_with: $search}]}, first: 1) {
+        allLoots(filter: {OR: [{dataId_contains: $search}, {name_contains: $search}]}, first: 1) {
           name
         }
       }
@@ -26,7 +26,7 @@ router.get('/find/:query', async ({ params }, res, next) => {
 
     const { allLoots } = await client.request(`
       query allLoots($search: String) {
-        allLoots(filter: {OR: [{dataId_contains: $search}, {name_starts_with: $search}]}, first: 3) {
+        allLoots(filter: {OR: [{dataId_contains: $search}, {name_contains: $search}]}, first: 3) {
           name
           percentage
           crate {
