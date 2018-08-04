@@ -8,10 +8,10 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'List of loot tables for various crates, boxes, barrels, piles.' },
       { hid: 'keywords', name: 'keywords', content: 'rust, playrust, crates, boxes, barrels, loot, items, tables' },
 
-      { property: 'og:image', content: 'http://rust.vue.sk/box.png' }
+      { property: 'og:image', content: 'https://rust.vue.sk/box.png' }
     ],
     link: [
-      { rel: 'icon', type: 'image/ico', href: 'http://rust.vue.sk/favicon.ico' }
+      { rel: 'icon', type: 'image/ico', href: 'https://rust.vue.sk/favicon.ico' }
     ]
   },
   loading: true,
