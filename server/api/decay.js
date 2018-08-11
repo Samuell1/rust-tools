@@ -44,7 +44,7 @@ router.get('/decay/:type/:hp', function ({ params }, res, next) {
   const time = (params.hp / decayRateMinute).toFixed(2)
 
   const hours = Math.floor(time / 60)
-  const minutes = time % 60
+  const minutes = (time % 60).toFixed(2)
 
   res.send(`${hours ? `${hours} hours` : ``} ${minutes} minutes (${wallType}, ${params.hp})`)
 })
