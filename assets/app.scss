@@ -25,3 +25,16 @@ html, body {
 a {
   color: $link;
 }
+
+input {
+  background: $secondaryBackground;
+  border: 0px;
+  border-radius: 3px;
+  padding: 8px 26px 8px 12px;
+  width: auto;
+  color: $secondaryText;
+  font-size: 14px;
+  &:focus {
+    background: lighten($secondaryBackground, 5%);
+  }
+}

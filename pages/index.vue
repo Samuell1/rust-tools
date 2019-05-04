@@ -159,6 +159,7 @@ header {
   .list {
     overflow: hidden;
     width: 100%;
+    margin: 0 -2px -1px;
   }
   .count {
     position: absolute;
@@ -203,16 +204,7 @@ header {
     max-width: 300px;
     width: 100%;
     input {
-      background: $secondaryBackground;
-      border: 0px;
-      border-radius: 3px;
-      padding: 8px 26px 8px 12px;
       width: 100%;
-      color: $secondaryText;
-      font-size: 14px;
-      &:focus {
-        background: lighten($secondaryBackground, 5%);
-      }
     }
     .spinner {
       position: absolute;

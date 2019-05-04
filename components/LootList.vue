@@ -98,6 +98,7 @@ export default {
     width: 100px;
     height: 100%;
     background: linear-gradient(to left, $primaryBackground 0%,rgba(125,185,232,0) 70%);
+    pointer-events: none;
   }
   .gradient-left {
     position: absolute;
@@ -107,13 +108,14 @@ export default {
     width: 100px;
     height: 100%;
     background: linear-gradient(to right, $primaryBackground 0%,rgba(125,185,232,0) 70%);
+    pointer-events: none;
   }
 }
 
 .items {
   user-select: none;
   overflow-x: auto;
-  overflow: -moz-scrollbars-none; // FFvvv
+  overflow: -moz-scrollbars-none; // FF
   -ms-overflow-style: none;  // IE 10+
   &::-webkit-scrollbar {
     display: none;  // Safari and Chrome
@@ -138,7 +140,7 @@ export default {
   align-items: center;
   justify-content: center;
   position: relative;
-  margin: 0 2px 2px 0;
+  margin: 0 1px;
   flex: 0 0 120px;
   &.green {
     background:#202721;
