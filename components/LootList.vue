@@ -117,6 +117,7 @@ export default {
   overflow-x: auto;
   overflow: -moz-scrollbars-none; // FF
   -ms-overflow-style: none;  // IE 10+
+  scrollbar-width: none; // FFF 64
   &::-webkit-scrollbar {
     display: none;  // Safari and Chrome
   }
