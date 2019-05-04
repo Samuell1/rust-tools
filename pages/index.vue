@@ -16,7 +16,7 @@
     </header>
     <div class="info">
       <small>
-        Double click on specific item it opens wiki. (Green marked items has max percentage chance, Blue marked items has min percentage chance)
+        Double click on specific item it opens wiki. (Green marked items have max percentage chance, Blue marked items have min percentage chance)
         </small>
       <div class="lastupdate">
         Last updated {{ lastUpdate }}
