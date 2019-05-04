@@ -23,12 +23,14 @@
       </div>
     </div>
     <template v-if="search || loading === 0">
-      <div v-for="crate in allCrates" :key="crate.id" v-if="crate.loots.length" class="crate">
-        <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }" @click="openModal(crate)">
-          <span>{{ crate.name }}</span>
-          <span class="count">{{ crate.lootCount.count }} items</span>
-        </div>
-        <loot-list class="list" :crate="crate"></loot-list>
+      <div v-for="crate in allCrates" :key="crate.id" class="crate">
+        <template v-if="crate.loots.length">
+          <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }" @click="openModal(crate)">
+            <span>{{ crate.name }}</span>
+            <span class="count">{{ crate.lootCount.count }} items</span>
+          </div>
+          <loot-list class="list" :crate="crate"></loot-list>
+        </template>
       </div>
       <modal ref="modal">
         <div v-if="selectedCrate">
@@ -49,27 +51,20 @@ import timeago from 'timeago.js'
 import allChangelogs from '~/apollo/allChangelogs.gql'
 import allCrates from '~/apollo/allCrates.gql'
 
-import Modal from '~/components/Modal'
-
-import LootList from '~/components/LootList'
-import Spinner from '~/components/Spinner'
-
 export default {
-  data () {
-    return {
-      search: '',
-      orderByChance: false,
+  data: () => ({
+    search: '',
+    orderByChance: false,
 
-      selectedCrate: null,
-      showModal: false,
+    selectedCrate: null,
+    showModal: false,
 
-      loading: 0
-    }
-  },
+    loading: 0
+  }),
   components: {
-    LootList,
-    Spinner,
-    Modal
+    LootList: () => import('~/components/LootList'),
+    Spinner: () => import('~/components/Spinner'),
+    Modal: () => import('~/components/Modal')
   },
   computed: {
     lastUpdate () {
@@ -115,7 +110,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'assets/variables.scss';
+@import 'assets/_variables.scss';
 
 header {
   margin: 20px 0;
