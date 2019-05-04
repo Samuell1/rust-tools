@@ -159,7 +159,7 @@ header {
   .list {
     overflow: hidden;
     width: 100%;
-    margin: 0 -2px -1px;
+    margin: 0 -2px -2px;
   }
   .count {
     position: absolute;

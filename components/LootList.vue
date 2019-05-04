@@ -140,7 +140,7 @@ export default {
   align-items: center;
   justify-content: center;
   position: relative;
-  margin: 0 1px;
+  margin: 0 1px 2px;
   flex: 0 0 120px;
   &.green {
     background:#202721;
