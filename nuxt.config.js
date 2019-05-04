@@ -1,5 +1,5 @@
 module.exports = {
-  mode: 'spa',
+  mode: 'universal',
   head: {
     title: 'Rust Loot Tables',
     meta: [
