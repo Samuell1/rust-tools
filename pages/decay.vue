@@ -1,6 +1,6 @@
 <template>
   <div class="decay">
-    <h2 class="title">Rust Wall decay</h2>
+    <h2 class="title">Rust Wall Decay</h2>
     <div class="walls">
       <div :class="['wall', { 'active': selectedWall === wallName }]" v-for="(wall, wallName, index) in walls" :key="wallName" @click="selectWall(wallName)" :style="{ backgroundImage: `url(${getImage(index)})` }">
         <span>{{ wallName }}</span>
@@ -25,6 +25,21 @@
 <script>
 export default {
   layout: 'centered',
+  head: () => ({
+    title: 'Rust Wall Decay',
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Calculate how much time wall will take to decay.'
+      },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content: 'rust, playrust, decay, wall, twig, stone, metal, armored, calculcate'
+      }
+    ]
+  }),
   data: () => ({
     walls: {
       twig: {
