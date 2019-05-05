@@ -40,7 +40,7 @@ module.exports = {
   build: {
     extractCSS: true,
     extend (config, ctx) {
-      if (ctx.isDev && ctx.isClient) {
+      if (ctx.isDev && process.client) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
