@@ -204,7 +204,15 @@ header {
     max-width: 300px;
     width: 100%;
     input {
+      background: $secondaryBackground;
+      border: 0px;
+      padding: 8px 26px 8px 12px;
       width: 100%;
+      color: $secondaryText;
+      font-size: 14px;
+      &:focus {
+        background: lighten($secondaryBackground, 5%);
+      }
     }
     .spinner {
       position: absolute;
@@ -224,7 +232,6 @@ header {
     font-size: 11px;
     padding: 4px 8px;
     color: $primaryText;
-    border-radius: 3px;
     &.active {
       background: $primary;
       color: $white;
