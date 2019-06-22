@@ -12,11 +12,9 @@
 <script>
 export default {
   name: 'Modal',
-  data () {
-    return {
-      show: false
-    }
-  },
+  data: () => ({
+    show: false
+  }),
   methods: {
     close () {
       this.show = false

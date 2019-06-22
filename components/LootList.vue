@@ -24,17 +24,15 @@
 export default {
   name: 'LootList',
   props: ['crate'],
-  data () {
-    return {
-      scroll: {
-        enabled: false,
-        clientX: 0,
-        scrollLeft: 0,
-        start: 0,
-        end: false
-      }
+  data: () => ({
+    scroll: {
+      enabled: false,
+      clientX: 0,
+      scrollLeft: 0,
+      start: 0,
+      end: false
     }
-  },
+  }),
   computed: {
     maxPercentage () {
       const percentages = this.crate.loots.map((item) => item.percentage)
