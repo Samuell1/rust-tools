@@ -1,37 +1,38 @@
 <template>
   <div>
     <header>
-      <img src="/box.png" alt="Rust Loot Tables">
-      <div>
-        <h1>Rust Loot Tables</h1>
-        <p>List of loot tables for various crates, boxes, barrels, piles.</p>
-      </div>
-      <div class="search">
-        <div class="search-input">
-          <input type="text" v-model="search" placeholder="Search item...">
-          <spinner v-if="search && loading > 0"></spinner>
+      <div class="row">
+        <div class="logo col">
+          <img src="/box.png" alt="Rust Loot Tables">
+          <div>
+            <h1>Rust Loot Tables</h1>
+            <small class="lastupdate" :title="lastUpdateDate">Last updated {{ lastUpdate }}</small>
+          </div>
         </div>
-        <button @click="orderByChance = !orderByChance" class="order" :class="{ 'active' : orderByChance }">Order by Chance</button>
+        <div class="search col">
+          <div class="search-input">
+            <input type="text" v-model="search" placeholder="Search item...">
+            <spinner v-if="search && loading > 0"></spinner>
+          </div>
+        </div>
+        <div class="filter col">
+          <button @click="orderByChance = !orderByChance" class="button" :class="{ 'active' : orderByChance }">Order by Chance</button>
+        </div>
+        <div class="info col">
+          Double clicking on specific item opens a wiki in new tab. <br> Green marked item has most percentage chance to drop from box and blue marked has least.
+        </div>
       </div>
     </header>
-    <div class="info">
-      <small>
-        Double click on specific item it opens wiki. (Green marked items have max percentage chance, Blue marked items have min percentage chance)
-        </small>
-      <div class="lastupdate">
-        Last updated {{ lastUpdate }}
-      </div>
-    </div>
     <template v-if="search || loading === 0">
-      <div v-for="crate in allCrates" :key="crate.id" class="crate">
-        <template v-if="crate.loots.length">
+      <template v-for="crate in allCrates">
+        <div v-if="crate.loots.length" class="crate" :key="crate.id">
           <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }" @click="openModal(crate)">
             <span>{{ crate.name }}</span>
             <span class="count">{{ crate.lootCount.count }} items</span>
           </div>
           <loot-list class="list" :crate="crate"></loot-list>
-        </template>
-      </div>
+        </div>
+      </template>
       <modal ref="modal">
         <div v-if="selectedCrate">
           <h3>{{ selectedCrate.name }}</h3>
@@ -64,11 +65,15 @@ export default {
   components: {
     LootList: () => import('~/components/LootList'),
     Spinner: () => import('~/components/Spinner'),
-    Modal: () => import('~/components/Modal')
+    Modal: () => import('~/components/Modal'),
+    Dropdown: () => import('~/components/Dropdown')
   },
   computed: {
     lastUpdate () {
       return this.lastChange ? timeago().format(this.lastChange.date) : '...'
+    },
+    lastUpdateDate () {
+      return new Date(Date.parse(this.lastChange.date)).toLocaleString()
     }
   },
   apollo: {
@@ -77,7 +82,7 @@ export default {
       variables () {
         return {
           search: this.search,
-          orderBy: this.orderByChance ? 'percentage_DESC' : 'name_DESC'
+          orderBy: this.orderByChance ? 'percentage_DESC' : 'name_ASC'
         }
       },
       watchLoading (isLoading, countModifier) {
@@ -85,7 +90,7 @@ export default {
           this.loading += countModifier
         })
       },
-      prefetch: ({ route }) => ({ search: '', orderBy: 'name_DESC' })
+      prefetch: ({ route }) => ({ search: '', orderBy: 'name_ASC' })
     },
     lastChange: {
       query: allChangelogs,
@@ -114,9 +119,9 @@ export default {
 
 header {
   margin: 20px 0;
-  display: flex;
-  flex-flow: wrap;
-  align-items: center;
+  background: $secondaryBackground;
+  padding: 16px;
+  border-radius: 3px;
   img {
     max-width: 60px;
     margin-right: 16px;
@@ -129,6 +134,26 @@ header {
   }
   p {
     margin: 0px;
+  }
+  .info {
+    white-space: initial;
+    font-size: 12px;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .lastupdate {
+    opacity: .6;
+    font-size: 12px;
+  }
+  .logo {
+    display: flex;
+    flex: 0 1 auto;
+    align-items: center;
+  }
+  .filter {
+    .button {
+      margin-right: 6px;
+    }
   }
 }
 
@@ -154,12 +179,13 @@ header {
     text-shadow: 0px 0px 3px #000;
     &:hover {
       cursor: pointer;
+      box-shadow: inset 0 0 0px 1px $primary;
     }
   }
   .list {
     overflow: hidden;
     width: 100%;
-    margin: 0 -2px -2px;
+    margin: 0 0px -2px;
   }
   .count {
     position: absolute;
@@ -181,37 +207,25 @@ header {
   height: 160px;
 }
 
-.info {
-  display: flex;
-  flex-flow: wrap;
-  .lastupdate {
-    margin-left: auto;
-    font-size: 12px;
-    opacity: .6;
-  }
-}
-
 .search {
   display: flex;
-  margin-left: 20px;
-  max-width: 500px;
-  width: 100%;
-  @media screen and (max-width: 1024px) {
-    margin: 16px 0 0;
-  }
+  align-content: center;
+  flex: 0 0 300px;
   .search-input {
     position: relative;
     max-width: 300px;
     width: 100%;
     input {
-      background: $secondaryBackground;
+      background: lighten($secondaryBackground, 5%);
       border: 0px;
       padding: 8px 26px 8px 12px;
       width: 100%;
       color: $secondaryText;
       font-size: 14px;
+      border-radius: 3px;
+      height: 38px;
       &:focus {
-        background: lighten($secondaryBackground, 5%);
+        background: lighten($secondaryBackground, 8%);
       }
     }
     .spinner {
@@ -223,19 +237,21 @@ header {
       justify-content: center;
     }
   }
+}
 
-  .order {
-    background: $secondaryBackground;
-    margin-left: 8px;
-    cursor: pointer;
-    border: 0px;
-    font-size: 11px;
-    padding: 4px 8px;
-    color: $primaryText;
-    &.active {
-      background: $primary;
-      color: $white;
-    }
+.button {
+  background: lighten($secondaryBackground, 8%);
+  cursor: pointer;
+  border: 0px;
+  font-size: 11px;
+  padding: 4px 8px;
+  color: $primaryText;
+  border-radius: 3px;
+  height: 38px;
+  &.active {
+    background: $primary;
+    color: $white;
   }
 }
+
 </style>
