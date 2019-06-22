@@ -29,3 +29,23 @@ a {
 input {
   border: 0px;
 }
+
+// Simple grid
+.row {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  margin: 0 -8px;
+  @media screen and (max-width: 1024px) {
+    margin: -8px -8px;
+  }
+}
+.col {
+  flex-basis: 100%;
+  flex: 1;
+  padding: 0 8px;
+  @media screen and (max-width: 1024px) {
+    flex: auto;
+    padding: 8px 8px;
+  }
+}
