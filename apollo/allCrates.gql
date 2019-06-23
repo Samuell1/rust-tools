@@ -14,7 +14,7 @@ query allCrates($search: String, $orderBy: LootOrderBy) {
       percentage
       amount
       blueprint
-      category {
+      category (filter: { OR: [{ name_contains: $search }] }) {
         id
         name
       }
