@@ -11,7 +11,8 @@ module.exports = {
       { property: 'og:image', content: 'https://rust.vue.sk/box.png' }
     ],
     link: [
-      { rel: 'icon', type: 'image/ico', href: 'https://rust.vue.sk/favicon.ico' }
+      { rel: 'icon', type: 'image/ico', href: 'https://rust.vue.sk/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,500&display=swap' }
     ]
   },
   loading: true,

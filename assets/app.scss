@@ -1,7 +1,7 @@
 @import '_variables.scss';
 
 html, body {
-  font-family: "Roboto", Arial, sans-serif;
+  font-family: "Open Sans", Arial, sans-serif;
   font-size: 16px;
   font-weight: 300;
   word-spacing: 1px;
@@ -28,6 +28,11 @@ a {
 
 input {
   border: 0px;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+button {
+  font-family: "Open Sans", Arial, sans-serif;
 }
 
 // Simple grid
