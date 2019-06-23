@@ -230,7 +230,7 @@ header {
     }
     .spinner {
       position: absolute;
-      top: 9px;
+      top: 11px;
       right: 6px;
       display: flex;
       align-items: center;

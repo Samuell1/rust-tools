@@ -4,8 +4,9 @@
       <transition-group name="list" class="transition">
         <div v-for="loot in crate.loots" :key="loot.id" :class="['item', { 'green' : loot.percentage >= maxPercentage, 'blue' : loot.percentage <= minPercentage }]" @dblclick="openRustLabs(loot)">
           <div class="info">
-            <span v-if="loot.amount" class="amount">{{ loot.amount }}</span>
-            <span v-if="loot.percentage" class="percentage">{{ loot.percentage }}%</span>
+            <span v-if="loot.condition" title="Condition">{{ loot.condition }}</span>
+            <span v-if="loot.amount" class="amount" title="Amount">{{ loot.amount }}</span>
+            <span v-if="loot.percentage" class="percentage" title="Percentage chance">{{ loot.percentage }}%</span>
           </div>
           <div class="image">
             <div class="icon" :style="{ backgroundImage: `url(https://rustlabs.com/img/items180/${loot.dataId}.png)` }"></div>
