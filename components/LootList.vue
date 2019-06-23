@@ -4,9 +4,9 @@
       <transition-group name="list" class="transition">
         <div v-for="loot in crate.loots" :key="loot.id" :class="['item', { 'green' : loot.percentage >= maxPercentage, 'blue' : loot.percentage <= minPercentage }]" @dblclick="openRustLabs(loot)">
           <div class="info">
-            <span v-if="loot.condition" title="Condition">{{ loot.condition }}</span>
-            <span v-if="loot.amount" class="amount" title="Amount">{{ loot.amount }}</span>
             <span v-if="loot.percentage" class="percentage" title="Percentage chance">{{ loot.percentage }}%</span>
+            <span v-if="loot.condition" title="Condition">{{ loot.condition }}%</span>
+            <span v-if="loot.amount" class="amount" title="Amount">{{ loot.amount }}</span>
           </div>
           <div class="image">
             <div class="icon" :style="{ backgroundImage: `url(https://rustlabs.com/img/items180/${loot.dataId}.png)` }"></div>
@@ -151,20 +151,25 @@ export default {
   .info {
     position: absolute;
     top: 6px;
-    right: 6px;
+    right: 0;
+    left: 0;
+    padding: 0 6px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    flex-direction: row;
     opacity: .5;
+    width: 100%;
     span {
-      background: $gray;
+      background: darken($gray, 10%);
       color: $white;
       font-size: 10px;
       border-radius: 3px;
       padding: 2px 4px;
       margin-left: 2px;
       &.percentage {
-        background: darken($secondary, 10%);
+        background: #090909;
+        margin-right: auto;
       }
     }
   }
