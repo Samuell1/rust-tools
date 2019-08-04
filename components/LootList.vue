@@ -9,7 +9,7 @@
             <span v-if="loot.amount" class="amount" title="Amount">{{ loot.amount }}</span>
           </div>
           <div class="image">
-            <div class="icon" :style="{ backgroundImage: `url(https://rustlabs.com/img/items180/${loot.dataId}.png)` }"></div>
+            <lazy-image class="icon" :src="`https://rustlabs.com/img/items180/${loot.dataId}.png`" />
             <div v-if="loot.blueprint" class="blueprint"></div>
           </div>
           <div class="title">{{ loot.name }}</div>
@@ -34,6 +34,9 @@ export default {
       end: false
     }
   }),
+  components: {
+    LazyImage: () => import('~/components/LazyImage')
+  },
   computed: {
     maxPercentage () {
       const percentages = this.crate.loots.map((item) => item.percentage)
