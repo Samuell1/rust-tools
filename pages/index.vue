@@ -115,8 +115,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'assets/_variables.scss';
-
 header {
   margin: 20px 0;
   background: $secondaryBackground;

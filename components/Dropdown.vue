@@ -31,8 +31,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'assets/variables.scss';
-
 .dropdown {
     position: relative;
     display: inline-block;

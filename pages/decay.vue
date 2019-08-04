@@ -92,8 +92,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'assets/_variables.scss';
-
 .decay {
   padding: 60px 0;
 }

@@ -88,8 +88,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'assets/variables.scss';
-
 .gradients {
   position: relative;
   .gradient-right {

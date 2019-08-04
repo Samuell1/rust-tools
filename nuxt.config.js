@@ -27,6 +27,9 @@ module.exports = {
       lang: 'scss'
     }
   ],
+  styleResources: {
+    scss: './assets/_variables.scss'
+  },
   apollo: {
     clientConfigs: {
       default: {
@@ -36,6 +39,7 @@ module.exports = {
   },
   modules: [
     '@nuxtjs/apollo',
+    '@nuxtjs/style-resources',
     ['@nuxtjs/google-analytics', {
       ua: 'UA-108014756-1'
     }]

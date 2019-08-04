@@ -16,8 +16,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'assets/variables.scss';
-
 $offset: 187;
 $duration: 1.4s;
 
