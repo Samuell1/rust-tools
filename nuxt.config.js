@@ -28,8 +28,10 @@ module.exports = {
     }
   ],
   apollo: {
-    networkInterfaces: {
-      default: '~/apollo/network-interfaces/default.js'
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'https://api.graph.cool/simple/v1/cj8g20g6q030q0156airzo84g'
+      }
     }
   },
   modules: [
