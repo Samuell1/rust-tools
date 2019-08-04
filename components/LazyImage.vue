@@ -42,6 +42,9 @@ export default {
         }
       }, this.intersectionOptions)
       this.observer.observe(this.$el)
+    } else {
+      // callback
+      this.intersected = true
     }
   },
   destroyed () {
