@@ -159,8 +159,9 @@ export default {
     justify-content: flex-end;
     align-items: center;
     flex-direction: row;
-    opacity: .5;
     width: 100%;
+    z-index: 2;
+    opacity: .7;
     span {
       background: darken($gray, 10%);
       color: $white;
@@ -169,7 +170,7 @@ export default {
       padding: 2px 4px;
       margin-left: 2px;
       &.percentage {
-        background: #090909;
+        background: $secondary;
         margin-right: auto;
       }
     }
