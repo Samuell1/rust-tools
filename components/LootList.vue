@@ -161,7 +161,6 @@ export default {
     flex-direction: row;
     width: 100%;
     z-index: 2;
-    opacity: .7;
     span {
       background: darken($gray, 10%);
       color: $white;
@@ -169,8 +168,12 @@ export default {
       border-radius: 3px;
       padding: 2px 4px;
       margin-left: 2px;
+      &:not(.percentage) {
+        opacity: .7;
+      }
       &.percentage {
-        background: $secondary;
+        background: $blueBackground;
+        color: $blueColor;
         margin-right: auto;
       }
     }
