@@ -1,7 +1,7 @@
 <template>
   <div class="decay">
     <h2 class="title">Rust Wall Decay</h2>
-    <p>Calculated time is not 100% accurate because buildings decay from outside to inside with different timers!</p>
+    <p>Calculated time is not 100% accurate because buildings decay from outside to inside layers with different timers!</p>
     <div class="walls">
       <div :class="['wall', { 'active': selectedWall === wallName }]" v-for="(wall, wallName, index) in walls" :key="wallName" @click="selectWall(wallName)" :style="{ backgroundImage: `url(${getImage(index)})` }">
         <span>{{ wallName }}</span>
