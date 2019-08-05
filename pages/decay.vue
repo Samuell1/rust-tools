@@ -1,6 +1,7 @@
 <template>
   <div class="decay">
     <h2 class="title">Rust Wall Decay</h2>
+    <p>Calculated time is not 100% accurate because buildings decay from outside to inside with different timers!</p>
     <div class="walls">
       <div :class="['wall', { 'active': selectedWall === wallName }]" v-for="(wall, wallName, index) in walls" :key="wallName" @click="selectWall(wallName)" :style="{ backgroundImage: `url(${getImage(index)})` }">
         <span>{{ wallName }}</span>
@@ -94,6 +95,9 @@ export default {
 <style lang="scss">
 .decay {
   padding: 60px 0;
+  p {
+    text-align: center;
+  }
 }
 
 .walls {
@@ -111,8 +115,9 @@ export default {
     align-items: center;
     justify-content: center;
     color: $white;
-    text-shadow: 0px 0px 3px #000;
+    text-shadow: 0px 0px 10px #000, 0px 0px 5px #000;
     text-transform: uppercase;
+    font-weight: 500;
     .hp {
       background: transparentize($black, .5);
       color: $white;
