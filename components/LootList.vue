@@ -40,7 +40,7 @@ export default {
   computed: {
     loots () {
       return this.crate.loots.filter((item) => {
-        return (this.filter.hideBlueprints ? item.blueprint === false : true) && (this.filter.hideMiscCategory ? item.category.name !== 'Misc' : true)
+        return (this.filter.hideBlueprints ? item.blueprint === false : true) && (this.filter.hideMiscCategory && item.category ? item.category.name !== 'Misc' : true)
       })
     },
     maxPercentage () {
