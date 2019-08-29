@@ -1,28 +1,18 @@
 <template>
   <div>
-    <header>
-      <div class="row">
-        <div class="logo col">
-          <img src="/box.png" alt="Rust Loot Tables">
-          <div>
-            <h1>Rust Loot Tables</h1>
-            <small class="lastupdate" :title="lastUpdateDate">Last updated {{ lastUpdate }}</small>
-          </div>
-        </div>
-        <div class="search col">
-          <div class="search-input">
-            <input type="text" v-model="search" placeholder="Search item...">
-            <spinner v-if="search && loading > 0"></spinner>
-          </div>
-        </div>
-        <div class="filter col">
-          <button @click="orderByChance = !orderByChance" class="button" :class="{ 'active' : orderByChance }">Order by Chance</button>
-        </div>
-        <div class="info col">
-          Double clicking on specific item opens a wiki in new tab. <br> Green marked item has most percentage chance to drop from box and blue marked has least.
+    <div class="page-title">
+      <h1>Loot Tables</h1>
+      <p>All lootable containers from Rust. Double clicking on specific item opens a wiki in new tab. <br> Green marked item has most percentage chance to drop from box and blue marked has least.</p>
+    </div>
+
+    <div class="filter">
+      <div class="search">
+        <div class="search-input">
+          <input type="text" v-model="search" placeholder="Search item...">
+          <spinner v-if="search && loading > 0"></spinner>
         </div>
       </div>
-    </header>
+
     <template v-if="search || loading === 0">
       <template v-for="crate in allCrates">
         <div v-if="crate.loots.length" class="crate" :key="crate.id">
@@ -30,7 +20,7 @@
             <span>{{ crate.name }}</span>
             <span class="count">{{ crate.lootCount.count }} items</span>
           </div>
-          <loot-list class="list" :crate="crate"></loot-list>
+          <loot-list class="list" :crate="crate" :filter="filter"/>
         </div>
       </template>
       <modal ref="modal">
@@ -40,14 +30,15 @@
         </div>
       </modal>
     </template>
-    <div class="loading" v-else>
+    <template class="loading" v-else>
       <spinner :size="30"></spinner>
-    </div>
+    </template>
   </div>
 </template>
 
 <script>
 import timeago from 'timeago.js'
+import debounce from 'lodash.debounce'
 
 import allChangelogs from '~/apollo/allChangelogs.gql'
 import allCrates from '~/apollo/allCrates.gql'
@@ -55,18 +46,32 @@ import allCrates from '~/apollo/allCrates.gql'
 export default {
   data: () => ({
     search: '',
+    searchInput: '',
     orderByChance: false,
+
+    filter: {
+      hideBlueprints: false,
+      hideMiscCategory: false
+    },
 
     selectedCrate: null,
     showModal: false,
 
-    loading: 0
+    loading: 0,
+
+    test: 0
   }),
   components: {
     LootList: () => import('~/components/LootList'),
     Spinner: () => import('~/components/Spinner'),
     Modal: () => import('~/components/Modal'),
-    Dropdown: () => import('~/components/Dropdown')
+    Dropdown: () => import('~/components/Dropdown'),
+    Checkbox: () => import('~/components/Checkbox')
+  },
+  watch: {
+    search () {
+      this.getSearchInput()
+    }
   },
   computed: {
     lastUpdate () {
@@ -81,15 +86,11 @@ export default {
       query: allCrates,
       variables () {
         return {
-          search: this.search,
+          search: this.searchInput,
           orderBy: this.orderByChance ? 'percentage_DESC' : 'name_ASC'
         }
       },
-      watchLoading (isLoading, countModifier) {
-        this.$nextTick(() => {
-          this.loading += countModifier
-        })
-      },
+      loadingKey: 'loading',
       prefetch: ({ route }) => ({ search: '', orderBy: 'name_ASC' })
     },
     lastChange: {
@@ -102,6 +103,9 @@ export default {
     }
   },
   methods: {
+    getSearchInput: debounce(function () {
+      this.searchInput = this.search
+    }, 200),
     getImage (url, width = 200, height = 200) {
       const imageSize = width + 'x' + height
       return url.replace('https://files.graph.cool/', 'https://images.graph.cool/') + '/' + imageSize
@@ -115,46 +119,6 @@ export default {
 </script>
 
 <style lang="scss">
-header {
-  margin: 20px 0;
-  background: $secondaryBackground;
-  padding: 16px;
-  border-radius: 3px;
-  img {
-    max-width: 60px;
-    margin-right: 16px;
-  }
-  h1 {
-    color: $secondaryText;
-    font-size: 18px;
-    font-weight: 300;
-    margin: 0px;
-  }
-  p {
-    margin: 0px;
-  }
-  .info {
-    white-space: initial;
-    font-size: 12px;
-    min-width: 0;
-    flex: 1 1 auto;
-  }
-  .lastupdate {
-    opacity: .6;
-    font-size: 12px;
-  }
-  .logo {
-    display: flex;
-    flex: 0 1 auto;
-    align-items: center;
-  }
-  .filter {
-    .button {
-      margin-right: 6px;
-    }
-  }
-}
-
 .crate {
   margin: 24px 0;
   display: flex;
@@ -205,10 +169,15 @@ header {
   height: 160px;
 }
 
+.filter {
+  display: flex;
+}
+
 .search {
   display: flex;
   align-content: center;
   flex: 0 0 300px;
+  margin-right: 16px;
   .search-input {
     position: relative;
     max-width: 300px;

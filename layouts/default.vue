@@ -62,7 +62,7 @@ header {
 }
 
 .page-title {
-  padding-top: 16px;
+  padding: 8px 0 8px;
   text-align: center;
   h1 {
     font-weight: 300;
