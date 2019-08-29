@@ -1,23 +1,28 @@
 <template>
-  <div class="decay">
-    <h2 class="title">Rust Wall Decay</h2>
-    <p>Calculated time is not 100% accurate because buildings decay from outside to inside layers with different timers!</p>
-    <div class="walls">
-      <div :class="['wall', { 'active': selectedWall === wallName }]" v-for="(wall, wallName, index) in walls" :key="wallName" @click="selectWall(wallName)" :style="{ backgroundImage: `url(${getImage(index)})` }">
-        <span>{{ wallName }}</span>
-        <span class="hp">Full hp: {{ wall.hp }}</span>
-      </div>
+  <div>
+    <div class="page-title">
+      <h2 class="title">Wall Decay</h2>
+      <p>Calculated time is not 100% accurate because buildings decay from outside to inside layers with different timers!</p>
     </div>
 
-    <div class="decay-panel">
-      <div class="hp-input">
-        <label>Health of wall:</label>
-        <input type="text" v-model.number="hp" placeholder="HP" size="2" autofocus>
+    <div class="decay">
+      <div class="walls">
+        <div :class="['wall', { 'active': selectedWall === wallName }]" v-for="(wall, wallName, index) in walls" :key="wallName" @click="selectWall(wallName)" :style="{ backgroundImage: `url(${getImage(index)})` }">
+          <span class="name">{{ wallName }}</span>
+          <span class="hp">Full hp: {{ wall.hp }}</span>
+        </div>
       </div>
 
-      <div class="result">
-        <span v-if="time > 0">Wall will decay in <b>{{ exactTime }}</b></span>
-        <span v-else>Wall is already decayed!</span>
+      <div class="decay-panel">
+        <div class="hp-input">
+          <label>Health of wall:</label>
+          <input type="text" v-model.number="hp" placeholder="HP" size="2" autofocus>
+        </div>
+
+        <div class="result">
+          <span v-if="time > 0">Wall will decay in <b>{{ exactTime }}</b></span>
+          <span v-else>Wall is already decayed!</span>
+        </div>
       </div>
     </div>
   </div>
@@ -25,7 +30,6 @@
 
 <script>
 export default {
-  layout: 'centered',
   head: () => ({
     title: 'Rust Wall Decay',
     meta: [
@@ -94,10 +98,8 @@ export default {
 
 <style lang="scss">
 .decay {
-  padding: 60px 0;
-  p {
-    text-align: center;
-  }
+  max-width: 660px;
+  margin: 0 auto;
 }
 
 .walls {
@@ -113,7 +115,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     color: $white;
     text-shadow: 0px 0px 10px #000, 0px 0px 5px #000;
     text-transform: uppercase;
@@ -124,7 +126,14 @@ export default {
       font-size: 10px;
       border-radius: 3px;
       padding: 2px 4px;
-      margin-top: 8px;
+      margin: 4px;
+    }
+    .name {
+      background: rgba(#000000, .6);
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 6px 0;
     }
     &.active {
       box-shadow: inset 0 0 0px 1px $primary;
