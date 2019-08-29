@@ -2,7 +2,7 @@
   <div class="gradients">
     <div ref="items" class="items" :class="{ 'moving' : scroll.enabled }">
       <transition-group name="list" class="transition">
-        <div v-for="loot in crate.loots" :key="loot.id" :class="['item', { 'green' : loot.percentage >= maxPercentage, 'blue' : loot.percentage <= minPercentage }]" @dblclick="openRustLabs(loot)">
+        <div v-for="loot in loots" :key="loot.id" :class="['item', { 'green' : loot.percentage >= maxPercentage, 'blue' : loot.percentage <= minPercentage }]" @dblclick="openRustLabs(loot)">
           <div class="info">
             <span v-if="loot.percentage" class="percentage" title="Percentage chance">{{ loot.percentage }}%</span>
             <span v-if="loot.condition" title="Condition">{{ loot.condition }}%</span>
@@ -24,7 +24,7 @@
 <script>
 export default {
   name: 'LootList',
-  props: ['crate'],
+  props: ['crate', 'filter'],
   data: () => ({
     scroll: {
       enabled: false,
@@ -38,12 +38,17 @@ export default {
     LazyImage: () => import('~/components/LazyImage')
   },
   computed: {
+    loots () {
+      return this.crate.loots.filter((item) => {
+        return (this.filter.hideBlueprints ? item.blueprint === false : true) && (this.filter.hideMiscCategory ? item.category.name !== 'Misc' : true)
+      })
+    },
     maxPercentage () {
-      const percentages = this.crate.loots.map((item) => item.percentage)
+      const percentages = this.loots.map((item) => item.percentage)
       return Math.max(...percentages)
     },
     minPercentage () {
-      const percentages = this.crate.loots.map((item) => item.percentage)
+      const percentages = this.loots.map((item) => item.percentage)
       return Math.min(...percentages)
     }
   },

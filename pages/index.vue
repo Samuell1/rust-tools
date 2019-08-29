@@ -12,6 +12,12 @@
           <spinner v-if="search && loading > 0"></spinner>
         </div>
       </div>
+      <div>
+        <checkbox v-model="orderByChance">Order by chance</checkbox>
+        <checkbox v-model="filter.hideBlueprints">Hide blueprints</checkbox>
+        <checkbox v-model="filter.hideMiscCategory">Hide misc</checkbox>
+      </div>
+    </div>
 
     <template v-if="search || loading === 0">
       <template v-for="crate in allCrates">
