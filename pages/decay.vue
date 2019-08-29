@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h2 class="title">Wall Decay</h2>
+      <h1>Wall Decay</h1>
       <p>Calculated time is not 100% accurate because buildings decay from outside to inside layers with different timers!</p>
     </div>
 
