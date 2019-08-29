@@ -15,7 +15,7 @@ query allCrates($search: String, $orderBy: LootOrderBy) {
       amount
       blueprint
       condition
-      category (filter: { OR: [{ name_contains: $search }] }) {
+      category {
         id
         name
       }
