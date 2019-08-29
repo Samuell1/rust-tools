@@ -7,7 +7,7 @@
       </div>
       <nav>
         <nuxt-link to="/">Loot Tables</nuxt-link>
-        <nuxt-link to="/decay">Decay Calculator</nuxt-link>
+        <nuxt-link to="/decay">Wall Decay Calculator</nuxt-link>
       </nav>
     </header>
     <div class="container">
