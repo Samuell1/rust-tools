@@ -17,6 +17,7 @@
         <checkbox v-model="filter.hideBlueprints">Hide blueprints</checkbox>
         <checkbox v-model="filter.hideMiscCategory">Hide misc</checkbox>
       </div>
+      <div class="lastupdate" v-show="lastUpdate">Last update: {{ lastUpdate }}</div>
     </div>
 
     <template v-if="search || loading === 0">
@@ -63,9 +64,7 @@ export default {
     selectedCrate: null,
     showModal: false,
 
-    loading: 0,
-
-    test: 0
+    loading: 0
   }),
   components: {
     LootList: () => import('~/components/LootList'),
@@ -177,6 +176,8 @@ export default {
 
 .filter {
   display: flex;
+  align-items: center;
+  flex-flow: wrap;
 }
 
 .search {
@@ -227,4 +228,9 @@ export default {
   }
 }
 
+.lastupdate {
+  margin-left: auto;
+  font-size: 11px;
+  color: $gray;
+}
 </style>
