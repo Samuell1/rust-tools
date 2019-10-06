@@ -29,26 +29,26 @@
 </template>
 
 <script>
-import allMonuments from '~/apollo/allMonuments.gql'
+// import allMonuments from '~/apollo/allMonuments.gql'
 
-export default {
-  data: () => ({
-    loading: 0
-  }),
-  apollo: {
-    allMonuments: {
-      query: allMonuments,
-      loadingKey: 'loading',
-      prefetch: true
-    }
-  },
-  methods: {
-    getImage (url, width = 200, height = 200) {
-      const imageSize = width + 'x' + height
-      return url.replace('https://files.graph.cool/', 'https://images.graph.cool/') + '/' + imageSize
-    }
-  }
-}
+// export default {
+//   data: () => ({
+//     loading: 0
+//   }),
+//   apollo: {
+//     allMonuments: {
+//       query: allMonuments,
+//       loadingKey: 'loading',
+//       prefetch: true
+//     }
+//   },
+//   methods: {
+//     getImage (url, width = 200, height = 200) {
+//       const imageSize = width + 'x' + height
+//       return url.replace('https://files.graph.cool/', 'https://images.graph.cool/') + '/' + imageSize
+//     }
+//   }
+// }
 </script>
 
 <style lang="scss">
