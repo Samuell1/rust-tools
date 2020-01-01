@@ -1,5 +1,9 @@
 # These rules will change if you change your site’s custom domains or HTTPS settings
 
+# Redirect folders to correct url
+/decay/ /decay 301!
+/monument/ /monument 301!
+
 # Redirect domain aliases to primary domain
 https://www.rust.vue.sk/* https://rust.vue.sk/:splat 301!
 

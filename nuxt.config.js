@@ -12,7 +12,9 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/ico', href: 'https://rust.vue.sk/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,500&display=swap' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,500&display=swap' },
+
+      { rel: 'dns-prefetch', href: 'https://rustlabs.com' }
     ]
   },
   loading: true,
