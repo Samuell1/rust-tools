@@ -44,9 +44,9 @@
         </div>
       </modal>
     </template>
-    <template class="loading" v-else>
+    <div class="loading" v-else>
       <spinner :size="30"></spinner>
-    </template>
+    </div>
   </div>
 </template>
 
