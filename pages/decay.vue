@@ -7,7 +7,13 @@
 
     <div class="decay">
       <div class="walls">
-        <div :class="['wall', { 'active': selectedWall === wallName }]" v-for="(wall, wallName, index) in walls" :key="wallName" @click="selectWall(wallName)" :style="{ backgroundImage: `url(${getImage(index)})` }">
+        <div
+          :class="['wall', { 'active': selectedWall === wallName }]"
+          v-for="(wall, wallName, index) in walls"
+          :key="wallName"
+          @click="selectWall(wallName)"
+          :style="{ backgroundImage: `url(${getImage(index)})` }"
+        >
           <span class="name">{{ wallName }}</span>
           <span class="hp">Full hp: {{ wall.hp }}</span>
         </div>
@@ -16,11 +22,14 @@
       <div class="decay-panel">
         <div class="hp-input">
           <label>Health of wall:</label>
-          <input type="text" v-model.number="hp" placeholder="HP" size="2" autofocus>
+          <input type="text" v-model.number="hp" placeholder="HP" size="2" autofocus />
         </div>
 
         <div class="result">
-          <span v-if="time > 0">Wall will decay in <b>{{ exactTime }}</b></span>
+          <span v-if="time > 0">
+            Wall will decay in
+            <b>{{ exactTime }}</b>
+          </span>
           <span v-else>Wall is already decayed!</span>
         </div>
       </div>
@@ -41,7 +50,8 @@ export default {
       {
         hid: 'keywords',
         name: 'keywords',
-        content: 'rust, playrust, decay, wall, twig, stone, metal, armored, calculcate'
+        content:
+          'rust, playrust, decay, wall, twig, stone, metal, armored, calculcate'
       }
     ]
   }),
@@ -75,14 +85,16 @@ export default {
   computed: {
     time () {
       const wall = this.walls[this.selectedWall]
-      const decayRateMinute = (wall.hp / wall.decayTime) / 60
+      const decayRateMinute = wall.hp / wall.decayTime / 60
       return (this.hp / decayRateMinute).toFixed(2)
     },
     exactTime () {
       const hours = Math.floor(this.time / 60)
       const minutes = (this.time % 60).toFixed(1)
 
-      return `${hours ? `${hours} hour(s)` : ``} ${minutes > 0 ? `${minutes} minute(s)` : ``}`
+      return `${hours ? `${hours} hour(s)` : ``} ${
+        minutes > 0 ? `${minutes} minute(s)` : ``
+      }`
     }
   },
   methods: {
@@ -121,7 +133,7 @@ export default {
     text-transform: uppercase;
     font-weight: 500;
     .hp {
-      background: transparentize($black, .5);
+      background: transparentize($black, 0.5);
       color: $white;
       font-size: 10px;
       border-radius: 3px;
@@ -129,7 +141,7 @@ export default {
       margin: 4px;
     }
     .name {
-      background: rgba(#000000, .6);
+      background: rgba(#000000, 0.6);
       display: block;
       width: 100%;
       text-align: center;
@@ -195,5 +207,4 @@ export default {
     }
   }
 }
-
 </style>

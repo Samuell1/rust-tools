@@ -2,9 +2,18 @@
   <div class="gradients">
     <div ref="items" class="items" :class="{ 'moving' : scroll.enabled }">
       <transition-group name="list" class="transition">
-        <div v-for="loot in loots" :key="loot.id" :class="['item', { 'green' : loot.percentage >= maxPercentage, 'blue' : loot.percentage <= minPercentage }]" @dblclick="openRustLabs(loot)">
+        <div
+          v-for="loot in loots"
+          :key="loot.id"
+          :class="['item', { 'green' : loot.percentage >= maxPercentage, 'blue' : loot.percentage <= minPercentage }]"
+          @dblclick="openRustLabs(loot)"
+        >
           <div class="info">
-            <span v-if="loot.percentage" class="percentage" title="Percentage chance">{{ loot.percentage }}%</span>
+            <span
+              v-if="loot.percentage"
+              class="percentage"
+              title="Percentage chance"
+            >{{ loot.percentage }}%</span>
             <span v-if="loot.condition" title="Condition">{{ loot.condition }}%</span>
             <span v-if="loot.amount" class="amount" title="Amount">{{ loot.amount }}</span>
           </div>
@@ -39,25 +48,32 @@ export default {
   },
   computed: {
     loots () {
-      return this.crate.loots.filter((item) => {
-        return (this.filter.hideBlueprints ? item.blueprint === false : true) && (this.filter.hideMiscCategory && item.category ? item.category.name !== 'Misc' : true)
+      return this.crate.loots.filter(item => {
+        return (
+          (this.filter.hideBlueprints ? item.blueprint === false : true) &&
+          (this.filter.hideMiscCategory && item.category
+            ? item.category.name !== 'Misc'
+            : true)
+        )
       })
     },
     maxPercentage () {
-      const percentages = this.loots.map((item) => item.percentage)
+      const percentages = this.loots.map(item => item.percentage)
       return Math.max(...percentages)
     },
     minPercentage () {
-      const percentages = this.loots.map((item) => item.percentage)
+      const percentages = this.loots.map(item => item.percentage)
       return Math.min(...percentages)
     }
   },
   mounted () {
     // recalculate right shadow
-    this.scroll.end = this.$refs.items.scrollWidth - this.$refs.items.scrollLeft === this.$refs.items.clientWidth
+    this.scroll.end =
+      this.$refs.items.scrollWidth - this.$refs.items.scrollLeft ===
+      this.$refs.items.clientWidth
 
     // detect mouse movement for smaller displays
-    this.$refs.items.addEventListener('mousedown', (event) => {
+    this.$refs.items.addEventListener('mousedown', event => {
       this.scroll.enabled = true
       this.scroll.scrollLeft = this.$refs.items.scrollLeft
       this.scroll.start = this.$refs.items.scrollLeft
@@ -69,21 +85,30 @@ export default {
     this.$refs.items.addEventListener('mouseleave', () => {
       this.scroll.enabled = false
     })
-    this.$refs.items.addEventListener('mousemove', (event) => {
+    this.$refs.items.addEventListener('mousemove', event => {
       event.preventDefault()
       if (this.scroll.enabled) {
-        this.$refs.items.scrollLeft = this.scroll.scrollLeft + this.scroll.clientX - event.pageX
+        this.$refs.items.scrollLeft =
+          this.scroll.scrollLeft + this.scroll.clientX - event.pageX
         this.scroll.start = this.$refs.items.scrollLeft
-        this.scroll.end = this.$refs.items.scrollWidth - this.$refs.items.scrollLeft === this.$refs.items.clientWidth
+        this.scroll.end =
+          this.$refs.items.scrollWidth - this.$refs.items.scrollLeft ===
+          this.$refs.items.clientWidth
       }
     })
   },
   methods: {
     openRustLabs (loot) {
-      window.open(`https://rustlabs.com/item/${this.slugify(loot.name)}`, '_blank')
+      window.open(
+        `https://rustlabs.com/item/${this.slugify(loot.name)}`,
+        '_blank'
+      )
     },
     slugify (text) {
-      return text.toString().toLowerCase().trim()
+      return text
+        .toString()
+        .toLowerCase()
+        .trim()
         .replace(/[\s_-]+/g, '-') // swap any length of whitespace, underscore, hyphen characters with a single -
         .replace(/^-+|-+$/g, '') // remove leading, trailing -
         .replace('-blueprint', '') // remove blueprint from name
@@ -102,7 +127,11 @@ export default {
     right: 0px;
     width: 100px;
     height: 100%;
-    background: linear-gradient(to left, $primaryBackground 0%,rgba(125,185,232,0) 70%);
+    background: linear-gradient(
+      to left,
+      $primaryBackground 0%,
+      rgba(125, 185, 232, 0) 70%
+    );
     pointer-events: none;
   }
   .gradient-left {
@@ -112,7 +141,11 @@ export default {
     left: 0px;
     width: 100px;
     height: 100%;
-    background: linear-gradient(to right, $primaryBackground 0%,rgba(125,185,232,0) 70%);
+    background: linear-gradient(
+      to right,
+      $primaryBackground 0%,
+      rgba(125, 185, 232, 0) 70%
+    );
     pointer-events: none;
   }
 }
@@ -121,10 +154,10 @@ export default {
   user-select: none;
   overflow-x: auto;
   overflow: -moz-scrollbars-none; // FF
-  -ms-overflow-style: none;  // IE 10+
+  -ms-overflow-style: none; // IE 10+
   scrollbar-width: none; // FFF 64
   &::-webkit-scrollbar {
-    display: none;  // Safari and Chrome
+    display: none; // Safari and Chrome
   }
   &.moving {
     cursor: w-resize;
@@ -149,10 +182,10 @@ export default {
   margin: 0 1px 2px;
   flex: 0 0 120px;
   &.green {
-    background:#202721;
+    background: #202721;
   }
   &.blue {
-    background:#202027;
+    background: #202027;
   }
   .info {
     position: absolute;
@@ -174,7 +207,7 @@ export default {
       padding: 2px 4px;
       margin-left: 2px;
       &:not(.percentage) {
-        opacity: .7;
+        opacity: 0.7;
       }
       &.percentage {
         background: $blueBackground;
@@ -218,10 +251,12 @@ export default {
   }
 }
 
-.list-enter-active, .list-leave-active {
-  transition: all .3s;
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s;
 }
-.list-enter, .list-leave-to {
+.list-enter,
+.list-leave-to {
   opacity: 0;
 }
 </style>

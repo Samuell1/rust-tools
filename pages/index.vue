@@ -2,13 +2,16 @@
   <div>
     <div class="page-title">
       <h1>Loot Tables</h1>
-      <p>All lootable containers from Rust. Double clicking on specific item opens a wiki in new tab. <br> Green marked item has most percentage chance to drop from box and blue marked has least.</p>
+      <p>
+        All lootable containers from Rust. Double clicking on specific item opens a wiki in new tab.
+        <br />Green marked item has most percentage chance to drop from box and blue marked has least.
+      </p>
     </div>
 
     <div class="filter">
       <div class="search">
         <div class="search-input">
-          <input type="text" v-model="search" placeholder="Search item...">
+          <input type="text" v-model="search" placeholder="Search item..." />
           <spinner v-if="search && loading > 0"></spinner>
         </div>
       </div>
@@ -23,11 +26,15 @@
     <template v-if="search || loading === 0">
       <template v-for="crate in allCrates">
         <div v-if="crate.loots.length" class="crate" :key="crate.id">
-          <div class="name" :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }" @click="openModal(crate)">
+          <div
+            class="name"
+            :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }"
+            @click="openModal(crate)"
+          >
             <span>{{ crate.name }}</span>
             <span class="count">{{ crate.lootCount.count }} items</span>
           </div>
-          <loot-list class="list" :crate="crate" :filter="filter"/>
+          <loot-list class="list" :crate="crate" :filter="filter" />
         </div>
       </template>
       <modal ref="modal">
@@ -103,7 +110,7 @@ export default {
       variables: {
         orderBy: 'date_DESC'
       },
-      update: (data) => data.allChangelogs[0],
+      update: data => data.allChangelogs[0],
       prefetch: ({ route }) => ({ orderBy: 'date_DESC' })
     }
   },
@@ -113,7 +120,11 @@ export default {
     }, 200),
     getImage (url, width = 200, height = 200) {
       const imageSize = width + 'x' + height
-      return url.replace('https://files.graph.cool/', 'https://images.graph.cool/') + '/' + imageSize
+      return (
+        url.replace('https://files.graph.cool/', 'https://images.graph.cool/') +
+        '/' +
+        imageSize
+      )
     },
     openModal (crate) {
       this.selectedCrate = crate
@@ -158,7 +169,7 @@ export default {
     position: absolute;
     top: 6px;
     right: 6px;
-    background: transparentize($black, .5);
+    background: transparentize($black, 0.5);
     color: $white;
     font-size: 10px;
     border-radius: 3px;

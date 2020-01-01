@@ -24,7 +24,7 @@ export default {
     }
   },
   mounted () {
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       if (this.show && e.keyCode === 27) {
         this.close()
       }
@@ -35,17 +35,17 @@ export default {
 
 <style lang="scss">
 .modal-mask {
-    position: fixed;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: transparentize($primaryBackground, .1);
-    transition: opacity .3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparentize($primaryBackground, 0.1);
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal {
@@ -54,7 +54,7 @@ export default {
   background-color: $secondaryBackground;
   border-radius: 2px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
   position: relative;
   .close {
@@ -62,7 +62,7 @@ export default {
     top: 8px;
     right: 8px;
     cursor: pointer;
-    opacity: .5;
+    opacity: 0.5;
     line-height: 1;
     padding: 6px;
     &:hover {
@@ -73,7 +73,7 @@ export default {
     margin-top: 0;
   }
   .body {
-      margin: 20px 0;
+    margin: 20px 0;
   }
 }
 

@@ -57,7 +57,7 @@ export default {
   .label::after {
     transform: rotate(45deg) scale(1);
     position: absolute;
-    content: "";
+    content: '';
     left: 8px;
     top: 3px;
     width: 6px;
@@ -66,7 +66,7 @@ export default {
     border: solid $primary;
     opacity: 0;
     border-width: 0 2px 2px 0;
-    transition: opacity .3s;
+    transition: opacity 0.3s;
     background-color: transparent;
   }
 }

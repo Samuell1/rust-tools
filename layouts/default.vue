@@ -2,8 +2,8 @@
   <div>
     <header>
       <div class="logo">
-        <img src="/box.png" alt="iRust"/>
-        <h1>iRUST</h1>
+        <img src="/box.png" alt="iRust" />
+        <h1>RUST</h1>
       </div>
       <nav>
         <nuxt-link to="/">Loot Tables</nuxt-link>
@@ -11,10 +11,12 @@
       </nav>
     </header>
     <div class="container">
-      <nuxt/>
+      <nuxt />
     </div>
     <footer>
-      Created by <a href="https://github.com/Samuell1">Samuell</a>. Images and informations are used from Rust Wiki and <a href="https://rustlabs.com">Rustlabs.com</a>
+      Created by
+      <a href="https://github.com/Samuell1">Samuell</a>. Images and informations are used from Rust Wiki and
+      <a href="https://rustlabs.com">Rustlabs.com</a>
     </footer>
   </div>
 </template>
@@ -26,7 +28,7 @@ header {
   margin: 0;
   background: $secondaryBackground;
   padding: 0 16px;
-  min-height: 60px; 
+  min-height: 60px;
   img {
     max-width: 40px;
     margin-right: 16px;
@@ -88,10 +90,12 @@ footer {
   text-align: center;
 }
 
-.page-enter-active, .page-leave-active {
-  transition: opacity .5s;
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s;
 }
-.page-enter, .page-leave-to {
+.page-enter,
+.page-leave-to {
   opacity: 0;
 }
 </style>

@@ -60,7 +60,7 @@ export default {
       domProps: this.$attrs,
       class: {
         'lazy-image': true,
-        'loaded': this.loaded
+        loaded: this.loaded
       },
       on: { load: this.load }
     })
