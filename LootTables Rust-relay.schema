@@ -1,0 +1,1921 @@
+﻿input AddToCrateOnFileCrateInput {
+  fileFileId: ID!
+  cratesCrateId: ID!
+  clientMutationId: String!
+}
+
+type AddToCrateOnFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  cratesCrate: Crate
+  fileFile: File
+  cratesCrateEdge: CrateEdge
+  fileFileEdge: FileEdge
+}
+
+input AddToLootOnCategoryLootInput {
+  categoryCategoryId: ID!
+  lootsLootId: ID!
+  clientMutationId: String!
+}
+
+type AddToLootOnCategoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  lootsLoot: Loot
+  categoryCategory: Category
+  lootsLootEdge: LootEdge
+  categoryCategoryEdge: CategoryEdge
+}
+
+input AddToLootOnCrateLootInput {
+  crateCrateId: ID!
+  lootsLootId: ID!
+  clientMutationId: String!
+}
+
+type AddToLootOnCratePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  lootsLoot: Loot
+  crateCrate: Crate
+  lootsLootEdge: LootEdge
+  crateCrateEdge: CrateEdge
+}
+
+type Category implements Node {
+  id: ID!
+  loots(filter: LootFilter, orderBy: LootOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): LootConnection
+  name: String!
+}
+
+# A connection to a list of items.
+type CategoryConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [CategoryEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type CategoryEdge {
+  # The item at the end of the edge.
+  node: Category!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input CategoryFilter {
+  # Logical AND on all given filters.
+  AND: [CategoryFilter!]
+
+  # Logical OR on all given filters.
+  OR: [CategoryFilter!]
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  loots_every: LootFilter
+  loots_some: LootFilter
+  loots_none: LootFilter
+}
+
+input CategorylootsLoot {
+  amount: String
+  blueprint: Boolean
+  condition: String
+  dataId: String!
+  name: String
+  percentage: Float
+  crateId: ID
+  crate: LootcrateCrate
+}
+
+enum CategoryOrderBy {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type Crate implements Node {
+  description: String
+  file(filter: FileFilter): File
+  id: ID!
+  loots(filter: LootFilter, orderBy: LootOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): LootConnection
+  name: String!
+}
+
+# A connection to a list of items.
+type CrateConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [CrateEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type CrateEdge {
+  # The item at the end of the edge.
+  node: Crate!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input CratefileFile {
+  name: String!
+  cratesIds: [ID!]
+  crates: [FilecratesCrate!]
+}
+
+input CrateFilter {
+  # Logical AND on all given filters.
+  AND: [CrateFilter!]
+
+  # Logical OR on all given filters.
+  OR: [CrateFilter!]
+  description: String
+
+  # All values that are not equal to given value.
+  description_not: String
+
+  # All values that are contained in given list.
+  description_in: [String!]
+
+  # All values that are not contained in given list.
+  description_not_in: [String!]
+
+  # All values less than the given value.
+  description_lt: String
+
+  # All values less than or equal the given value.
+  description_lte: String
+
+  # All values greater than the given value.
+  description_gt: String
+
+  # All values greater than or equal the given value.
+  description_gte: String
+
+  # All values containing the given string.
+  description_contains: String
+
+  # All values not containing the given string.
+  description_not_contains: String
+
+  # All values starting with the given string.
+  description_starts_with: String
+
+  # All values not starting with the given string.
+  description_not_starts_with: String
+
+  # All values ending with the given string.
+  description_ends_with: String
+
+  # All values not ending with the given string.
+  description_not_ends_with: String
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  file: FileFilter
+  loots_every: LootFilter
+  loots_some: LootFilter
+  loots_none: LootFilter
+}
+
+input CratelootsLoot {
+  amount: String
+  blueprint: Boolean
+  condition: String
+  dataId: String!
+  name: String
+  percentage: Float
+  categoryId: ID
+  category: LootcategoryCategory
+}
+
+enum CrateOrderBy {
+  description_ASC
+  description_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+input CreateCategory {
+  name: String!
+  lootsIds: [ID!]
+  loots: [CategorylootsLoot!]
+}
+
+input CreateCategoryInput {
+  name: String!
+  lootsIds: [ID!]
+  loots: [CategorylootsLoot!]
+  clientMutationId: String!
+}
+
+type CreateCategoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  category: Category
+  edge: CategoryEdge
+}
+
+input CreateCrate {
+  description: String
+  name: String!
+  fileId: ID
+  file: CratefileFile
+  lootsIds: [ID!]
+  loots: [CratelootsLoot!]
+}
+
+input CreateCrateInput {
+  description: String
+  name: String!
+  fileId: ID
+  file: CratefileFile
+  lootsIds: [ID!]
+  loots: [CratelootsLoot!]
+  clientMutationId: String!
+}
+
+type CreateCratePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  crate: Crate
+  edge: CrateEdge
+  file: File
+}
+
+input CreateFile {
+  name: String!
+  cratesIds: [ID!]
+  crates: [FilecratesCrate!]
+}
+
+input CreateFileInput {
+  name: String!
+  cratesIds: [ID!]
+  crates: [FilecratesCrate!]
+  clientMutationId: String!
+}
+
+type CreateFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+}
+
+input CreateChangelog {
+  date: DateTime!
+  description: String
+}
+
+input CreateChangelogInput {
+  date: DateTime!
+  description: String
+  clientMutationId: String!
+}
+
+type CreateChangelogPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  changelog: Changelog
+  edge: ChangelogEdge
+}
+
+input CreateLoot {
+  amount: String
+  blueprint: Boolean
+  condition: String
+  dataId: String!
+  name: String
+  percentage: Float
+  categoryId: ID
+  category: LootcategoryCategory
+  crateId: ID
+  crate: LootcrateCrate
+}
+
+input CreateLootInput {
+  amount: String
+  blueprint: Boolean
+  condition: String
+  dataId: String!
+  name: String
+  percentage: Float
+  categoryId: ID
+  category: LootcategoryCategory
+  crateId: ID
+  crate: LootcrateCrate
+  clientMutationId: String!
+}
+
+type CreateLootPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  loot: Loot
+  edge: LootEdge
+  category: Category
+  crate: Crate
+}
+
+input CreateUser {
+  isVerified: Boolean
+  secret: String
+}
+
+# If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
+type CreateUserPayload {
+  user: User
+  clientMutationId: String
+  viewer: Viewer!
+}
+
+scalar DateTime
+
+input DeleteCategoryInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteCategoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  category: Category
+  edge: CategoryEdge
+  deletedId: ID
+}
+
+input DeleteCrateInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteCratePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  crate: Crate
+  edge: CrateEdge
+  file: File
+  deletedId: ID
+}
+
+input DeleteFileInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+  deletedId: ID
+}
+
+input DeleteChangelogInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteChangelogPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  changelog: Changelog
+  edge: ChangelogEdge
+  deletedId: ID
+}
+
+input DeleteLootInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteLootPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  loot: Loot
+  edge: LootEdge
+  category: Category
+  crate: Crate
+  deletedId: ID
+}
+
+input DeleteUserInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  user: User
+  edge: UserEdge
+  deletedId: ID
+}
+
+type File implements Node {
+  contentType: String!
+  crates(filter: CrateFilter, orderBy: CrateOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CrateConnection
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  secret: String!
+  size: Int!
+  updatedAt: DateTime!
+  url: String!
+}
+
+# A connection to a list of items.
+type FileConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [FileEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+input FilecratesCrate {
+  description: String
+  name: String!
+  lootsIds: [ID!]
+  loots: [CratelootsLoot!]
+}
+
+# An edge in a connection.
+type FileEdge {
+  # The item at the end of the edge.
+  node: File!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input FileFilter {
+  # Logical AND on all given filters.
+  AND: [FileFilter!]
+
+  # Logical OR on all given filters.
+  OR: [FileFilter!]
+  contentType: String
+
+  # All values that are not equal to given value.
+  contentType_not: String
+
+  # All values that are contained in given list.
+  contentType_in: [String!]
+
+  # All values that are not contained in given list.
+  contentType_not_in: [String!]
+
+  # All values less than the given value.
+  contentType_lt: String
+
+  # All values less than or equal the given value.
+  contentType_lte: String
+
+  # All values greater than the given value.
+  contentType_gt: String
+
+  # All values greater than or equal the given value.
+  contentType_gte: String
+
+  # All values containing the given string.
+  contentType_contains: String
+
+  # All values not containing the given string.
+  contentType_not_contains: String
+
+  # All values starting with the given string.
+  contentType_starts_with: String
+
+  # All values not starting with the given string.
+  contentType_not_starts_with: String
+
+  # All values ending with the given string.
+  contentType_ends_with: String
+
+  # All values not ending with the given string.
+  contentType_not_ends_with: String
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  secret: String
+
+  # All values that are not equal to given value.
+  secret_not: String
+
+  # All values that are contained in given list.
+  secret_in: [String!]
+
+  # All values that are not contained in given list.
+  secret_not_in: [String!]
+
+  # All values less than the given value.
+  secret_lt: String
+
+  # All values less than or equal the given value.
+  secret_lte: String
+
+  # All values greater than the given value.
+  secret_gt: String
+
+  # All values greater than or equal the given value.
+  secret_gte: String
+
+  # All values containing the given string.
+  secret_contains: String
+
+  # All values not containing the given string.
+  secret_not_contains: String
+
+  # All values starting with the given string.
+  secret_starts_with: String
+
+  # All values not starting with the given string.
+  secret_not_starts_with: String
+
+  # All values ending with the given string.
+  secret_ends_with: String
+
+  # All values not ending with the given string.
+  secret_not_ends_with: String
+  size: Int
+
+  # All values that are not equal to given value.
+  size_not: Int
+
+  # All values that are contained in given list.
+  size_in: [Int!]
+
+  # All values that are not contained in given list.
+  size_not_in: [Int!]
+
+  # All values less than the given value.
+  size_lt: Int
+
+  # All values less than or equal the given value.
+  size_lte: Int
+
+  # All values greater than the given value.
+  size_gt: Int
+
+  # All values greater than or equal the given value.
+  size_gte: Int
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  url: String
+
+  # All values that are not equal to given value.
+  url_not: String
+
+  # All values that are contained in given list.
+  url_in: [String!]
+
+  # All values that are not contained in given list.
+  url_not_in: [String!]
+
+  # All values less than the given value.
+  url_lt: String
+
+  # All values less than or equal the given value.
+  url_lte: String
+
+  # All values greater than the given value.
+  url_gt: String
+
+  # All values greater than or equal the given value.
+  url_gte: String
+
+  # All values containing the given string.
+  url_contains: String
+
+  # All values not containing the given string.
+  url_not_contains: String
+
+  # All values starting with the given string.
+  url_starts_with: String
+
+  # All values not starting with the given string.
+  url_not_starts_with: String
+
+  # All values ending with the given string.
+  url_ends_with: String
+
+  # All values not ending with the given string.
+  url_not_ends_with: String
+  crates_every: CrateFilter
+  crates_some: CrateFilter
+  crates_none: CrateFilter
+}
+
+enum FileOrderBy {
+  contentType_ASC
+  contentType_DESC
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  secret_ASC
+  secret_DESC
+  size_ASC
+  size_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  url_ASC
+  url_DESC
+}
+
+type Changelog implements Node {
+  date: DateTime!
+  description: String
+  id: ID!
+}
+
+# A connection to a list of items.
+type ChangelogConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [ChangelogEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type ChangelogEdge {
+  # The item at the end of the edge.
+  node: Changelog!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input ChangelogFilter {
+  # Logical AND on all given filters.
+  AND: [ChangelogFilter!]
+
+  # Logical OR on all given filters.
+  OR: [ChangelogFilter!]
+  date: DateTime
+
+  # All values that are not equal to given value.
+  date_not: DateTime
+
+  # All values that are contained in given list.
+  date_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  date_not_in: [DateTime!]
+
+  # All values less than the given value.
+  date_lt: DateTime
+
+  # All values less than or equal the given value.
+  date_lte: DateTime
+
+  # All values greater than the given value.
+  date_gt: DateTime
+
+  # All values greater than or equal the given value.
+  date_gte: DateTime
+  description: String
+
+  # All values that are not equal to given value.
+  description_not: String
+
+  # All values that are contained in given list.
+  description_in: [String!]
+
+  # All values that are not contained in given list.
+  description_not_in: [String!]
+
+  # All values less than the given value.
+  description_lt: String
+
+  # All values less than or equal the given value.
+  description_lte: String
+
+  # All values greater than the given value.
+  description_gt: String
+
+  # All values greater than or equal the given value.
+  description_gte: String
+
+  # All values containing the given string.
+  description_contains: String
+
+  # All values not containing the given string.
+  description_not_contains: String
+
+  # All values starting with the given string.
+  description_starts_with: String
+
+  # All values not starting with the given string.
+  description_not_starts_with: String
+
+  # All values ending with the given string.
+  description_ends_with: String
+
+  # All values not ending with the given string.
+  description_not_ends_with: String
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+}
+
+enum ChangelogOrderBy {
+  date_ASC
+  date_DESC
+  description_ASC
+  description_DESC
+  id_ASC
+  id_DESC
+}
+
+input InvokeFunctionInput {
+  name: String!
+  input: String!
+  clientMutationId: String
+}
+
+type InvokeFunctionPayload {
+  result: String!
+  clientMutationId: String
+}
+
+type Loot implements Node {
+  amount: String
+  blueprint: Boolean
+  category(filter: CategoryFilter): Category
+  condition: String
+  crate(filter: CrateFilter): Crate
+  dataId: String!
+  id: ID!
+  name: String
+  percentage: Float
+}
+
+input LootcategoryCategory {
+  name: String!
+  lootsIds: [ID!]
+  loots: [CategorylootsLoot!]
+}
+
+# A connection to a list of items.
+type LootConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [LootEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+input LootcrateCrate {
+  description: String
+  name: String!
+  fileId: ID
+  file: CratefileFile
+  lootsIds: [ID!]
+  loots: [CratelootsLoot!]
+}
+
+# An edge in a connection.
+type LootEdge {
+  # The item at the end of the edge.
+  node: Loot!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input LootFilter {
+  # Logical AND on all given filters.
+  AND: [LootFilter!]
+
+  # Logical OR on all given filters.
+  OR: [LootFilter!]
+  amount: String
+
+  # All values that are not equal to given value.
+  amount_not: String
+
+  # All values that are contained in given list.
+  amount_in: [String!]
+
+  # All values that are not contained in given list.
+  amount_not_in: [String!]
+
+  # All values less than the given value.
+  amount_lt: String
+
+  # All values less than or equal the given value.
+  amount_lte: String
+
+  # All values greater than the given value.
+  amount_gt: String
+
+  # All values greater than or equal the given value.
+  amount_gte: String
+
+  # All values containing the given string.
+  amount_contains: String
+
+  # All values not containing the given string.
+  amount_not_contains: String
+
+  # All values starting with the given string.
+  amount_starts_with: String
+
+  # All values not starting with the given string.
+  amount_not_starts_with: String
+
+  # All values ending with the given string.
+  amount_ends_with: String
+
+  # All values not ending with the given string.
+  amount_not_ends_with: String
+  blueprint: Boolean
+
+  # All values that are not equal to given value.
+  blueprint_not: Boolean
+  condition: String
+
+  # All values that are not equal to given value.
+  condition_not: String
+
+  # All values that are contained in given list.
+  condition_in: [String!]
+
+  # All values that are not contained in given list.
+  condition_not_in: [String!]
+
+  # All values less than the given value.
+  condition_lt: String
+
+  # All values less than or equal the given value.
+  condition_lte: String
+
+  # All values greater than the given value.
+  condition_gt: String
+
+  # All values greater than or equal the given value.
+  condition_gte: String
+
+  # All values containing the given string.
+  condition_contains: String
+
+  # All values not containing the given string.
+  condition_not_contains: String
+
+  # All values starting with the given string.
+  condition_starts_with: String
+
+  # All values not starting with the given string.
+  condition_not_starts_with: String
+
+  # All values ending with the given string.
+  condition_ends_with: String
+
+  # All values not ending with the given string.
+  condition_not_ends_with: String
+  dataId: String
+
+  # All values that are not equal to given value.
+  dataId_not: String
+
+  # All values that are contained in given list.
+  dataId_in: [String!]
+
+  # All values that are not contained in given list.
+  dataId_not_in: [String!]
+
+  # All values less than the given value.
+  dataId_lt: String
+
+  # All values less than or equal the given value.
+  dataId_lte: String
+
+  # All values greater than the given value.
+  dataId_gt: String
+
+  # All values greater than or equal the given value.
+  dataId_gte: String
+
+  # All values containing the given string.
+  dataId_contains: String
+
+  # All values not containing the given string.
+  dataId_not_contains: String
+
+  # All values starting with the given string.
+  dataId_starts_with: String
+
+  # All values not starting with the given string.
+  dataId_not_starts_with: String
+
+  # All values ending with the given string.
+  dataId_ends_with: String
+
+  # All values not ending with the given string.
+  dataId_not_ends_with: String
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  percentage: Float
+
+  # All values that are not equal to given value.
+  percentage_not: Float
+
+  # All values that are contained in given list.
+  percentage_in: [Float!]
+
+  # All values that are not contained in given list.
+  percentage_not_in: [Float!]
+
+  # All values less than the given value.
+  percentage_lt: Float
+
+  # All values less than or equal the given value.
+  percentage_lte: Float
+
+  # All values greater than the given value.
+  percentage_gt: Float
+
+  # All values greater than or equal the given value.
+  percentage_gte: Float
+  category: CategoryFilter
+  crate: CrateFilter
+}
+
+enum LootOrderBy {
+  amount_ASC
+  amount_DESC
+  blueprint_ASC
+  blueprint_DESC
+  condition_ASC
+  condition_DESC
+  dataId_ASC
+  dataId_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  percentage_ASC
+  percentage_DESC
+}
+
+type Mutation {
+  createCategory(input: CreateCategoryInput!): CreateCategoryPayload
+  createChangelog(input: CreateChangelogInput!): CreateChangelogPayload
+  createCrate(input: CreateCrateInput!): CreateCratePayload
+  createFile(input: CreateFileInput!): CreateFilePayload
+  createLoot(input: CreateLootInput!): CreateLootPayload
+  updateCategory(input: UpdateCategoryInput!): UpdateCategoryPayload
+  updateChangelog(input: UpdateChangelogInput!): UpdateChangelogPayload
+  updateCrate(input: UpdateCrateInput!): UpdateCratePayload
+  updateFile(input: UpdateFileInput!): UpdateFilePayload
+  updateLoot(input: UpdateLootInput!): UpdateLootPayload
+  updateUser(input: UpdateUserInput!): UpdateUserPayload
+  updateOrCreateCategory(input: UpdateOrCreateCategoryInput!): UpdateOrCreateCategoryPayload
+  updateOrCreateChangelog(input: UpdateOrCreateChangelogInput!): UpdateOrCreateChangelogPayload
+  updateOrCreateCrate(input: UpdateOrCreateCrateInput!): UpdateOrCreateCratePayload
+  updateOrCreateFile(input: UpdateOrCreateFileInput!): UpdateOrCreateFilePayload
+  updateOrCreateLoot(input: UpdateOrCreateLootInput!): UpdateOrCreateLootPayload
+  updateOrCreateUser(input: UpdateOrCreateUserInput!): UpdateOrCreateUserPayload
+  deleteCategory(input: DeleteCategoryInput!): DeleteCategoryPayload
+  deleteChangelog(input: DeleteChangelogInput!): DeleteChangelogPayload
+  deleteCrate(input: DeleteCrateInput!): DeleteCratePayload
+  deleteFile(input: DeleteFileInput!): DeleteFilePayload
+  deleteLoot(input: DeleteLootInput!): DeleteLootPayload
+  deleteUser(input: DeleteUserInput!): DeleteUserPayload
+  addToCrateOnFile(input: AddToCrateOnFileCrateInput!): AddToCrateOnFilePayload
+  addToLootOnCategory(input: AddToLootOnCategoryLootInput!): AddToLootOnCategoryPayload
+  addToLootOnCrate(input: AddToLootOnCrateLootInput!): AddToLootOnCratePayload
+  removeFromCrateOnFile(input: RemoveFromCrateOnFileCrateInput!): RemoveFromCrateOnFilePayload
+  removeFromLootOnCategory(input: RemoveFromLootOnCategoryLootInput!): RemoveFromLootOnCategoryPayload
+  removeFromLootOnCrate(input: RemoveFromLootOnCrateLootInput!): RemoveFromLootOnCratePayload
+  createUser(input: SignupUserInput!): CreateUserPayload!
+  invokeFunction(input: InvokeFunctionInput!): InvokeFunctionPayload
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  viewer: Viewer!
+
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
+
+input RemoveFromCrateOnFileCrateInput {
+  fileFileId: ID!
+  cratesCrateId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromCrateOnFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  cratesCrate: Crate
+  fileFile: File
+  cratesCrateEdge: CrateEdge
+  fileFileEdge: FileEdge
+}
+
+input RemoveFromLootOnCategoryLootInput {
+  categoryCategoryId: ID!
+  lootsLootId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromLootOnCategoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  lootsLoot: Loot
+  categoryCategory: Category
+  lootsLootEdge: LootEdge
+  categoryCategoryEdge: CategoryEdge
+}
+
+input RemoveFromLootOnCrateLootInput {
+  crateCrateId: ID!
+  lootsLootId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromLootOnCratePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  lootsLoot: Loot
+  crateCrate: Crate
+  lootsLootEdge: LootEdge
+  crateCrateEdge: CrateEdge
+}
+
+input SignupUserInput {
+  isVerified: Boolean
+  secret: String
+  clientMutationId: String!
+}
+
+input UpdateCategory {
+  id: ID!
+  name: String
+  lootsIds: [ID!]
+  loots: [CategorylootsLoot!]
+}
+
+input UpdateCategoryInput {
+  id: ID!
+  name: String
+  lootsIds: [ID!]
+  loots: [CategorylootsLoot!]
+  clientMutationId: String!
+}
+
+type UpdateCategoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  category: Category
+  edge: CategoryEdge
+}
+
+input UpdateCrate {
+  description: String
+  id: ID!
+  name: String
+  fileId: ID
+  file: CratefileFile
+  lootsIds: [ID!]
+  loots: [CratelootsLoot!]
+}
+
+input UpdateCrateInput {
+  description: String
+  id: ID!
+  name: String
+  fileId: ID
+  file: CratefileFile
+  lootsIds: [ID!]
+  loots: [CratelootsLoot!]
+  clientMutationId: String!
+}
+
+type UpdateCratePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  crate: Crate
+  edge: CrateEdge
+  file: File
+}
+
+input UpdateFile {
+  id: ID!
+  name: String
+  cratesIds: [ID!]
+  crates: [FilecratesCrate!]
+}
+
+input UpdateFileInput {
+  id: ID!
+  name: String
+  cratesIds: [ID!]
+  crates: [FilecratesCrate!]
+  clientMutationId: String!
+}
+
+type UpdateFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+}
+
+input UpdateChangelog {
+  date: DateTime
+  description: String
+  id: ID!
+}
+
+input UpdateChangelogInput {
+  date: DateTime
+  description: String
+  id: ID!
+  clientMutationId: String!
+}
+
+type UpdateChangelogPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  changelog: Changelog
+  edge: ChangelogEdge
+}
+
+input UpdateLoot {
+  amount: String
+  blueprint: Boolean
+  condition: String
+  dataId: String
+  id: ID!
+  name: String
+  percentage: Float
+  categoryId: ID
+  category: LootcategoryCategory
+  crateId: ID
+  crate: LootcrateCrate
+}
+
+input UpdateLootInput {
+  amount: String
+  blueprint: Boolean
+  condition: String
+  dataId: String
+  id: ID!
+  name: String
+  percentage: Float
+  categoryId: ID
+  category: LootcategoryCategory
+  crateId: ID
+  crate: LootcrateCrate
+  clientMutationId: String!
+}
+
+type UpdateLootPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  loot: Loot
+  edge: LootEdge
+  category: Category
+  crate: Crate
+}
+
+input UpdateOrCreateCategoryInput {
+  update: UpdateCategory!
+  create: CreateCategory!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateCategoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  category: Category
+  edge: CategoryEdge
+}
+
+input UpdateOrCreateCrateInput {
+  update: UpdateCrate!
+  create: CreateCrate!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateCratePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  crate: Crate
+  edge: CrateEdge
+  file: File
+}
+
+input UpdateOrCreateFileInput {
+  update: UpdateFile!
+  create: CreateFile!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+}
+
+input UpdateOrCreateChangelogInput {
+  update: UpdateChangelog!
+  create: CreateChangelog!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateChangelogPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  changelog: Changelog
+  edge: ChangelogEdge
+}
+
+input UpdateOrCreateLootInput {
+  update: UpdateLoot!
+  create: CreateLoot!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateLootPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  loot: Loot
+  edge: LootEdge
+  category: Category
+  crate: Crate
+}
+
+input UpdateOrCreateUserInput {
+  update: UpdateUser!
+  create: CreateUser!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  user: User
+  edge: UserEdge
+}
+
+input UpdateUser {
+  id: ID!
+  isVerified: Boolean
+  secret: String
+}
+
+input UpdateUserInput {
+  id: ID!
+  isVerified: Boolean
+  secret: String
+  clientMutationId: String!
+}
+
+type UpdateUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  user: User
+  edge: UserEdge
+}
+
+type User implements Node {
+  createdAt: DateTime!
+  id: ID!
+  isVerified: Boolean!
+  secret: String
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type UserConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [UserEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type UserEdge {
+  # The item at the end of the edge.
+  node: User!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input UserFilter {
+  # Logical AND on all given filters.
+  AND: [UserFilter!]
+
+  # Logical OR on all given filters.
+  OR: [UserFilter!]
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  isVerified: Boolean
+
+  # All values that are not equal to given value.
+  isVerified_not: Boolean
+  secret: String
+
+  # All values that are not equal to given value.
+  secret_not: String
+
+  # All values that are contained in given list.
+  secret_in: [String!]
+
+  # All values that are not contained in given list.
+  secret_not_in: [String!]
+
+  # All values less than the given value.
+  secret_lt: String
+
+  # All values less than or equal the given value.
+  secret_lte: String
+
+  # All values greater than the given value.
+  secret_gt: String
+
+  # All values greater than or equal the given value.
+  secret_gte: String
+
+  # All values containing the given string.
+  secret_contains: String
+
+  # All values not containing the given string.
+  secret_not_contains: String
+
+  # All values starting with the given string.
+  secret_starts_with: String
+
+  # All values not starting with the given string.
+  secret_not_starts_with: String
+
+  # All values ending with the given string.
+  secret_ends_with: String
+
+  # All values not ending with the given string.
+  secret_not_ends_with: String
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+}
+
+enum UserOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  isVerified_ASC
+  isVerified_DESC
+  secret_ASC
+  secret_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+# This is the famous Relay viewer object
+type Viewer {
+  allCategories(filter: CategoryFilter, orderBy: CategoryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CategoryConnection!
+  allChangelogs(filter: ChangelogFilter, orderBy: ChangelogOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ChangelogConnection!
+  allCrates(filter: CrateFilter, orderBy: CrateOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CrateConnection!
+  allFiles(filter: FileFilter, orderBy: FileOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
+  allLoots(filter: LootFilter, orderBy: LootOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): LootConnection!
+  allUsers(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  user: User
+  Category(id: ID): Category
+  Changelog(id: ID): Changelog
+  Crate(id: ID): Crate
+  File(id: ID, secret: String, url: String): File
+  Loot(id: ID): Loot
+  User(id: ID, secret: String): User
+  id: ID!
+}
