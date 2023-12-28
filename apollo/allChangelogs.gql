@@ -1,6 +1,0 @@
-query allChangelogs ($orderBy: ChangelogOrderBy) {
-  allChangelogs (orderBy: $orderBy) {
-    date
-    description
-  }
-}

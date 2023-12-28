@@ -4,37 +4,36 @@
       <h1>Loot Tables</h1>
       <p>
         All lootable containers from Rust. Double clicking on specific item opens a wiki in new tab.
-        <br />Green marked item has most percentage chance to drop from box and blue marked has least.
+        <br/>Green marked item has most percentage chance to drop from box and blue marked has least.
       </p>
     </div>
 
     <div class="filter">
       <div class="search">
         <div class="search-input">
-          <input type="text" v-model="search" placeholder="Search item..." />
+          <input type="text" v-model="search" placeholder="Search item..."/>
           <spinner v-if="search && loading > 0"></spinner>
         </div>
       </div>
       <div>
-        <checkbox v-model="orderByChance">Order by chance</checkbox>
+        <checkbox v-model="filter.orderByChance">Order by chance</checkbox>
         <checkbox v-model="filter.hideBlueprints">Hide blueprints</checkbox>
         <checkbox v-model="filter.hideMiscCategory">Hide misc</checkbox>
       </div>
-      <div class="lastupdate" v-show="lastUpdate">Last update: {{ lastUpdate }}</div>
     </div>
 
     <template v-if="search || loading === 0">
-      <template v-for="crate in allCrates">
-        <div v-if="crate.loots.length" class="crate" :key="crate.id">
+      <template v-for="crate in filteredCrates">
+        <div v-if="crate.loots.length" class="crate" :key="crate.name">
           <div
             class="name"
-            :style="{ backgroundImage: crate.file ? `url(${getImage(crate.file.url)})` : `` }"
+            :style="{ backgroundImage: `url(${crate.image})` }"
             @click="openModal(crate)"
           >
             <span>{{ crate.name }}</span>
-            <span class="count">{{ crate.lootCount.count }} items</span>
+            <span class="count">{{ crate.loots.length }} items</span>
           </div>
-          <loot-list class="list" :crate="crate" :filter="filter" />
+          <loot-list st class="list" :crate="crate" :filter="filter"/>
         </div>
       </template>
       <modal ref="modal">
@@ -51,19 +50,19 @@
 </template>
 
 <script>
-import timeago from 'timeago.js'
 import debounce from 'lodash.debounce'
 
-import allChangelogs from '~/apollo/allChangelogs.gql'
-import allCrates from '~/apollo/allCrates.gql'
+const getCrates = () => import('~/public/data.json').then(m => m.default || m)
 
 export default {
   data: () => ({
     search: '',
     searchInput: '',
-    orderByChance: false,
+
+    allCrates: [],
 
     filter: {
+      orderByChance: true,
       hideBlueprints: false,
       hideMiscCategory: false
     },
@@ -77,60 +76,57 @@ export default {
     LootList: () => import('~/components/LootList'),
     Spinner: () => import('~/components/Spinner'),
     Modal: () => import('~/components/Modal'),
-    Dropdown: () => import('~/components/Dropdown'),
     Checkbox: () => import('~/components/Checkbox')
   },
-  watch: {
-    search () {
-      this.getSearchInput()
-    }
-  },
   computed: {
-    lastUpdate () {
-      return this.lastChange ? timeago().format(this.lastChange.date) : '...'
-    },
-    lastUpdateDate () {
-      return new Date(Date.parse(this.lastChange.date)).toLocaleString()
+    filteredCrates: {
+      cache: false,
+      get() {
+        const search = this.searchInput.toLowerCase()
+        const filteredCrates = this.allCrates.filter(crate => {
+          return crate.loots.some(loot => {
+            return loot.name.toLowerCase().includes(search)
+          })
+        })
+
+        return filteredCrates.map(crate => {
+          const loots = crate.loots.filter(loot => {
+            return loot.name.toLowerCase().includes(search)
+          })
+
+          if (this.filter.orderByChance) {
+            loots.sort((a, b) => {
+              return b.percentage - a.percentage
+            })
+          }
+
+          return {
+            ...crate,
+            loots
+          }
+        })
+      }
     }
   },
-  apollo: {
-    allCrates: {
-      query: allCrates,
-      variables () {
-        return {
-          search: this.searchInput,
-          orderBy: this.orderByChance ? 'percentage_DESC' : 'name_ASC'
-        }
-      },
-      loadingKey: 'loading',
-      prefetch: ({ route }) => ({ search: '', orderBy: 'name_ASC' })
-    },
-    lastChange: {
-      query: allChangelogs,
-      variables: {
-        orderBy: 'date_DESC'
-      },
-      update: data => data.allChangelogs[0],
-      prefetch: ({ route }) => ({ orderBy: 'date_DESC' })
+  watch: {
+    search() {
+      this.getSearchInput()
     }
   },
   methods: {
     getSearchInput: debounce(function () {
       this.searchInput = this.search
     }, 200),
-    getImage (url, width = 200, height = 200) {
-      const imageSize = width + 'x' + height
-      return (
-        url.replace('https://files.graph.cool/', 'https://images.graph.cool/') +
-        '/' +
-        imageSize
-      )
-    },
-    openModal (crate) {
+    openModal(crate) {
       this.selectedCrate = crate
       this.$refs.modal.open()
-    }
-  }
+    },
+  },
+  async mounted() {
+    this.loading++
+    this.allCrates = await getCrates()
+    this.loading--
+  },
 }
 </script>
 
@@ -139,6 +135,7 @@ export default {
   margin: 24px 0;
   display: flex;
   overflow: hidden;
+
   .name {
     background-size: cover;
     background-position: center center;
@@ -155,16 +152,19 @@ export default {
     color: $secondaryText;
     font-weight: 500;
     text-shadow: 0px 0px 3px #000;
+
     &:hover {
       cursor: pointer;
       box-shadow: inset 0 0 0px 1px $primary;
     }
   }
+
   .list {
     overflow: hidden;
     width: 100%;
     margin: 0 0px -2px;
   }
+
   .count {
     position: absolute;
     top: 6px;
@@ -196,10 +196,12 @@ export default {
   align-content: center;
   flex: 0 0 300px;
   margin-right: 16px;
+
   .search-input {
     position: relative;
     max-width: 300px;
     width: 100%;
+
     input {
       background: lighten($secondaryBackground, 5%);
       border: 0px;
@@ -209,10 +211,12 @@ export default {
       font-size: 14px;
       border-radius: 3px;
       height: 38px;
+
       &:focus {
         background: lighten($secondaryBackground, 8%);
       }
     }
+
     .spinner {
       position: absolute;
       top: 11px;
@@ -233,15 +237,10 @@ export default {
   color: $primaryText;
   border-radius: 3px;
   height: 38px;
+
   &.active {
     background: $primary;
     color: $white;
   }
-}
-
-.lastupdate {
-  margin-left: auto;
-  font-size: 11px;
-  color: $gray;
 }
 </style>

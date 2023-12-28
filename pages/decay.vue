@@ -2,7 +2,8 @@
   <div>
     <div class="page-title">
       <h1>Wall Decay</h1>
-      <p>Calculated time is not 100% accurate because buildings decay from outside to inside layers with different timers!</p>
+      <p>Calculated time is not 100% accurate because buildings decay from outside to inside layers with different
+        timers!</p>
     </div>
 
     <div class="decay">
@@ -22,7 +23,7 @@
       <div class="decay-panel">
         <div class="hp-input">
           <label>Health of wall:</label>
-          <input type="text" v-model.number="hp" placeholder="HP" size="2" autofocus />
+          <input type="text" v-model.number="hp" placeholder="HP" size="2"/>
         </div>
 
         <div class="result">
@@ -83,12 +84,12 @@ export default {
     selectedWall: 'twig'
   }),
   computed: {
-    time () {
+    time() {
       const wall = this.walls[this.selectedWall]
       const decayRateMinute = wall.hp / wall.decayTime / 60
       return (this.hp / decayRateMinute).toFixed(2)
     },
-    exactTime () {
+    exactTime() {
       const hours = Math.floor(this.time / 60)
       const minutes = (this.time % 60).toFixed(1)
 
@@ -98,10 +99,10 @@ export default {
     }
   },
   methods: {
-    getImage (index) {
-      return `https://rustlabs.com/img/screenshots/wall${index}.png`
+    getImage(index) {
+      return `/images/walls/${index}.png`
     },
-    selectWall (wall) {
+    selectWall(wall) {
       this.selectedWall = wall
     }
   }
@@ -110,20 +111,21 @@ export default {
 
 <style lang="scss">
 .decay {
-  max-width: 660px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 .walls {
   display: flex;
   flex-flow: wrap row;
-  margin: 0 -2px 6px -2px;
+  gap: 6px;
+  margin-bottom: 6px;
+
   .wall {
-    margin: 2px;
     background-size: cover;
     background-position: center center;
-    flex: 128px;
-    height: 128px;
+    flex: 160px;
+    height: 160px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -132,27 +134,47 @@ export default {
     text-shadow: 0px 0px 10px #000, 0px 0px 5px #000;
     text-transform: uppercase;
     font-weight: 500;
+    position: relative;
+    cursor: pointer;
+
     .hp {
       background: transparentize($black, 0.5);
       color: $white;
-      font-size: 10px;
+      font-size: 12px;
       border-radius: 3px;
       padding: 2px 4px;
       margin: 4px;
     }
+
     .name {
-      background: rgba(#000000, 0.6);
       display: block;
       width: 100%;
       text-align: center;
       padding: 6px 0;
     }
+
     &.active {
-      box-shadow: inset 0 0 0px 1px $primary;
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 2px solid $primary;
+      }
     }
+
     &:hover {
-      cursor: pointer;
-      box-shadow: inset 0 0 0px 1px $primary;
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 2px solid $primary;
+      }
     }
   }
 }
@@ -163,6 +185,7 @@ export default {
   @media screen and (max-width: 600px) {
     flex-direction: column;
   }
+
   .hp-input {
     background: $secondaryBackground;
     border: 0px;
@@ -172,10 +195,12 @@ export default {
     @media screen and (max-width: 600px) {
       flex-grow: 1;
     }
+
     label {
       padding: 6px 16px;
       white-space: nowrap;
     }
+
     input {
       color: $secondaryText;
       background: lighten($secondaryBackground, 2%);
@@ -186,11 +211,14 @@ export default {
       @media screen and (max-width: 600px) {
         width: 100%;
       }
+
       &:focus {
         background: lighten($secondaryBackground, 5%);
+        outline: 1px solid $primary;
       }
     }
   }
+
   .result {
     display: flex;
     align-items: center;
@@ -202,6 +230,7 @@ export default {
       margin-left: 0px;
       margin-top: 6px;
     }
+
     b {
       color: $primary;
     }

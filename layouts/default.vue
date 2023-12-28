@@ -2,8 +2,8 @@
   <div>
     <header>
       <div class="logo">
-        <img src="/box.png" alt="iRust" />
-        <h1>RUST</h1>
+        <img src="/images/box.png" alt="iRust"/>
+        <h1>RUST Tools</h1>
       </div>
       <nav>
         <nuxt-link to="/">Loot Tables</nuxt-link>
@@ -11,7 +11,7 @@
       </nav>
     </header>
     <div class="container">
-      <nuxt />
+      <NuxtPage/>
     </div>
     <footer>
       Created by
@@ -29,35 +29,44 @@ header {
   background: $secondaryBackground;
   padding: 0 16px;
   min-height: 60px;
+
   img {
     max-width: 40px;
     margin-right: 16px;
   }
+
   h1 {
     color: $secondaryText;
     font-size: 18px;
     font-weight: 300;
     margin: 0px;
   }
+
   .logo {
     display: flex;
     flex: 0 1 auto;
     align-items: center;
   }
+
   nav {
     display: flex;
     margin: 0 16px;
+
     a {
       color: $primaryText;
       display: flex;
       align-items: center;
       padding: 0 16px;
       text-decoration: none;
-      &.nuxt-link-active {
-        background: lighten($secondaryBackground, 2%);
+      border-bottom: 2px solid transparent;
+
+      &.router-link-active {
+        border-bottom: 2px solid $primary;
+        color: $primary;
       }
+
       &:hover {
-        background: lighten($secondaryBackground, 5%);
+        color: $primary;
       }
     }
   }
@@ -66,10 +75,12 @@ header {
 .page-title {
   padding: 8px 0 8px;
   text-align: center;
+
   h1 {
     font-weight: 300;
     font-size: 24px;
   }
+
   p {
     font-size: 14px;
     color: $gray;
@@ -94,6 +105,7 @@ footer {
 .page-leave-active {
   transition: opacity 0.5s;
 }
+
 .page-enter,
 .page-leave-to {
   opacity: 0;

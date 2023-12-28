@@ -1,12 +1,11 @@
 <template>
   <div class="gradients">
-    <div ref="items" class="items" :class="{ 'moving' : scroll.enabled }">
-      <transition-group name="list" class="transition">
+    <div ref="items" class="items">
+      <div class="items__content">
         <div
           v-for="loot in loots"
-          :key="loot.id"
+          :key="loot.name"
           :class="['item', { 'green' : loot.percentage >= maxPercentage, 'blue' : loot.percentage <= minPercentage }]"
-          @dblclick="openRustLabs(loot)"
         >
           <div class="info">
             <span
@@ -18,15 +17,13 @@
             <span v-if="loot.amount" class="amount" title="Amount">{{ loot.amount }}</span>
           </div>
           <div class="image">
-            <lazy-image class="icon" :src="`https://rustlabs.com/img/items180/${loot.dataId}.png`" />
+            <img class="icon" :src="`/images/items/${loot.image}`"/>
             <div v-if="loot.blueprint" class="blueprint"></div>
           </div>
           <div class="title">{{ loot.name }}</div>
         </div>
-      </transition-group>
+      </div>
     </div>
-    <div v-show="scroll.start" class="gradient-left"></div>
-    <div v-show="!scroll.end" class="gradient-right"></div>
   </div>
 </template>
 
@@ -34,20 +31,8 @@
 export default {
   name: 'LootList',
   props: ['crate', 'filter'],
-  data: () => ({
-    scroll: {
-      enabled: false,
-      clientX: 0,
-      scrollLeft: 0,
-      start: 0,
-      end: false
-    }
-  }),
-  components: {
-    LazyImage: () => import('~/components/LazyImage')
-  },
   computed: {
-    loots () {
+    loots() {
       return this.crate.loots.filter(item => {
         return (
           (this.filter.hideBlueprints ? item.blueprint === false : true) &&
@@ -57,112 +42,21 @@ export default {
         )
       })
     },
-    maxPercentage () {
+    maxPercentage() {
       const percentages = this.loots.map(item => item.percentage)
       return Math.max(...percentages)
     },
-    minPercentage () {
+    minPercentage() {
       const percentages = this.loots.map(item => item.percentage)
       return Math.min(...percentages)
     }
   },
-  mounted () {
-    // recalculate right shadow
-    this.scroll.end =
-      this.$refs.items.scrollWidth - this.$refs.items.scrollLeft ===
-      this.$refs.items.clientWidth
-
-    // detect mouse movement for smaller displays
-    this.$refs.items.addEventListener('mousedown', event => {
-      this.scroll.enabled = true
-      this.scroll.scrollLeft = this.$refs.items.scrollLeft
-      this.scroll.start = this.$refs.items.scrollLeft
-      this.scroll.clientX = event.pageX
-    })
-    this.$refs.items.addEventListener('mouseup', () => {
-      this.scroll.enabled = false
-    })
-    this.$refs.items.addEventListener('mouseleave', () => {
-      this.scroll.enabled = false
-    })
-    this.$refs.items.addEventListener('mousemove', event => {
-      event.preventDefault()
-      if (this.scroll.enabled) {
-        this.$refs.items.scrollLeft =
-          this.scroll.scrollLeft + this.scroll.clientX - event.pageX
-        this.scroll.start = this.$refs.items.scrollLeft
-        this.scroll.end =
-          this.$refs.items.scrollWidth - this.$refs.items.scrollLeft ===
-          this.$refs.items.clientWidth
-      }
-    })
-  },
-  methods: {
-    openRustLabs (loot) {
-      window.open(
-        `https://rustlabs.com/item/${this.slugify(loot.name)}`,
-        '_blank'
-      )
-    },
-    slugify (text) {
-      return text
-        .toString()
-        .toLowerCase()
-        .trim()
-        .replace(/[\s_-]+/g, '-') // swap any length of whitespace, underscore, hyphen characters with a single -
-        .replace(/^-+|-+$/g, '') // remove leading, trailing -
-        .replace('-blueprint', '') // remove blueprint from name
-    }
-  }
 }
 </script>
 
 <style lang="scss">
-.gradients {
-  position: relative;
-  .gradient-right {
-    position: absolute;
-    z-index: 5;
-    top: 0px;
-    right: 0px;
-    width: 100px;
-    height: 100%;
-    background: linear-gradient(
-      to left,
-      $primaryBackground 0%,
-      rgba(125, 185, 232, 0) 70%
-    );
-    pointer-events: none;
-  }
-  .gradient-left {
-    position: absolute;
-    z-index: 5;
-    top: 0px;
-    left: 0px;
-    width: 100px;
-    height: 100%;
-    background: linear-gradient(
-      to right,
-      $primaryBackground 0%,
-      rgba(125, 185, 232, 0) 70%
-    );
-    pointer-events: none;
-  }
-}
-
 .items {
-  user-select: none;
-  overflow-x: auto;
-  overflow: -moz-scrollbars-none; // FF
-  -ms-overflow-style: none; // IE 10+
-  scrollbar-width: none; // FFF 64
-  &::-webkit-scrollbar {
-    display: none; // Safari and Chrome
-  }
-  &.moving {
-    cursor: w-resize;
-  }
-  .transition {
+  &__content {
     display: flex;
     @media screen and (min-width: 1024px) {
       flex-flow: wrap;
@@ -181,12 +75,15 @@ export default {
   position: relative;
   margin: 0 1px 2px;
   flex: 0 0 120px;
+
   &.green {
     background: #202721;
   }
+
   &.blue {
     background: #202027;
   }
+
   .info {
     position: absolute;
     top: 6px;
@@ -199,6 +96,7 @@ export default {
     flex-direction: row;
     width: 100%;
     z-index: 2;
+
     span {
       background: darken($gray, 10%);
       color: $white;
@@ -206,9 +104,11 @@ export default {
       border-radius: 3px;
       padding: 2px 4px;
       margin-left: 2px;
+
       &:not(.percentage) {
         opacity: 0.7;
       }
+
       &.percentage {
         background: $blueBackground;
         color: $blueColor;
@@ -216,20 +116,24 @@ export default {
       }
     }
   }
+
   &:hover {
     transition: none;
     box-shadow: inset 0 0 0px 1px $primaryText;
   }
+
   .title {
     text-align: center;
     font-size: 14px;
     white-space: pre-wrap;
   }
+
   .image {
     position: relative;
     margin: 8px;
     width: 60px;
     height: 60px;
+
     .icon {
       position: relative;
       background-size: contain;
@@ -239,9 +143,10 @@ export default {
       height: 100%;
       z-index: 1;
     }
+
     .blueprint {
       position: absolute;
-      background: url(/blueprint.png) center center no-repeat;
+      background: url(/images/blueprint.png) center center no-repeat;
       background-size: contain;
       top: 0;
       width: 100%;
@@ -255,6 +160,7 @@ export default {
 .list-leave-active {
   transition: all 0.3s;
 }
+
 .list-enter,
 .list-leave-to {
   opacity: 0;

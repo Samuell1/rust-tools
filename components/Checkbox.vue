@@ -1,7 +1,7 @@
 <template>
-  <div :class="['checkbox',{ 'checked': checked }]" @click="toggle">
+  <div :class="['checkbox',{ 'checked': model }]" @click="toggle">
     <span class="label"></span>
-    <slot />
+    <slot/>
   </div>
 </template>
 
@@ -9,23 +9,32 @@
 export default {
   name: 'Checkbox',
   props: {
-    name: String
-  },
-  model: {
-    prop: 'checked',
-    event: 'change'
+    modelValue: {
+      type: [Array, Boolean]
+    },
+    value: {
+      type: [Boolean, Object]
+    },
+    label: {
+      type: String
+    }
   },
   data: () => ({
     checked: false
   }),
-  watch: {
-    checked () {
-      this.$emit('change', this.checked)
+  computed: {
+    model: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit("update:modelValue", value);
+      }
     }
   },
   methods: {
-    toggle () {
-      this.checked = !this.checked
+    toggle() {
+      this.model = !this.model
     }
   }
 }
@@ -39,9 +48,11 @@ export default {
   align-items: center;
   cursor: pointer;
   font-size: 14px;
+
   input {
     display: none;
   }
+
   .label {
     margin-right: 6px;
     position: relative;
@@ -51,9 +62,11 @@ export default {
     border-radius: 5px;
     border: 2px solid lighten($secondaryBackground, 5%);
   }
+
   &.checked .label::after {
     opacity: 1;
   }
+
   .label::after {
     transform: rotate(45deg) scale(1);
     position: absolute;
@@ -66,7 +79,7 @@ export default {
     border: solid $primary;
     opacity: 0;
     border-width: 0 2px 2px 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.1s;
     background-color: transparent;
   }
 }
