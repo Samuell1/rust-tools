@@ -20,6 +20,10 @@ export default defineNuxtConfig({
       link: [
         {rel: 'icon', type: 'image/ico', href: '/images/favicon.ico'},
         {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,500&display=swap'},
+      ],
+      script: [
+        {src: 'https://www.googletagmanager.com/gtag/js?id=G-LHSVQDE1EG', async: true},
+        {innerHTML: "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-LHSVQDE1EG');"}
       ]
     }
   },
