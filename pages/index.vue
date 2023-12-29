@@ -52,7 +52,7 @@
 <script>
 import debounce from 'lodash.debounce'
 
-const getCrates = () => import('~/public/data.json').then(m => m.default || m)
+const getCrates = () => import('/assets/data.json').then(m => m.default || m)
 
 export default {
   data: () => ({

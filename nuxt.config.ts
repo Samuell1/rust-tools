@@ -16,10 +16,10 @@ export default defineNuxtConfig({
           content: 'rust, playrust, crates, boxes, barrels, loot, items, tables, tools'
         },
 
-        {property: 'og:image', content: '/box.png'}
+        {property: 'og:image', content: '/images/box.png'}
       ],
       link: [
-        {rel: 'icon', type: 'image/ico', href: '/favicon.ico'},
+        {rel: 'icon', type: 'image/ico', href: '/images/favicon.ico'},
         {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,500&display=swap'},
       ]
     }
