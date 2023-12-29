@@ -3,7 +3,7 @@
     <div class="page-title">
       <h1>Loot Tables</h1>
       <p>
-        All lootable containers from Rust. Double clicking on specific item opens a wiki in new tab.
+        All lootable containers from Rust.
         <br/>Green marked item has most percentage chance to drop from box and blue marked has least.
       </p>
     </div>
@@ -11,7 +11,7 @@
     <div class="filter">
       <div class="search">
         <div class="search-input">
-          <input type="text" v-model="search" placeholder="Search item..."/>
+          <input type="text" v-model="search" placeholder="Search item or crate..."/>
           <spinner v-if="search && loading > 0"></spinner>
         </div>
       </div>
@@ -33,13 +33,14 @@
             <span>{{ crate.name }}</span>
             <span class="count">{{ crate.loots.length }} items</span>
           </div>
-          <loot-list st class="list" :crate="crate" :filter="filter"/>
+          <loot-list class="list" :loots="crate.loots"/>
         </div>
       </template>
       <modal ref="modal">
         <div v-if="selectedCrate">
           <h3>{{ selectedCrate.name }}</h3>
           <p>{{ selectedCrate.description }}</p>
+          <a :href="selectedCrate.url" target="_blank">Rustlabs page</a>
         </div>
       </modal>
     </template>
@@ -50,14 +51,12 @@
 </template>
 
 <script>
-import debounce from 'lodash.debounce'
 
 const getCrates = () => import('/assets/data.json').then(m => m.default || m)
 
 export default {
   data: () => ({
     search: '',
-    searchInput: '',
 
     allCrates: [],
 
@@ -82,41 +81,47 @@ export default {
     filteredCrates: {
       cache: false,
       get() {
-        const search = this.searchInput.toLowerCase()
-        const filteredCrates = this.allCrates.filter(crate => {
-          return crate.loots.some(loot => {
-            return loot.name.toLowerCase().includes(search)
-          })
-        })
-
-        return filteredCrates.map(crate => {
-          const loots = crate.loots.filter(loot => {
-            return loot.name.toLowerCase().includes(search)
-          })
-
-          if (this.filter.orderByChance) {
-            loots.sort((a, b) => {
-              return b.percentage - a.percentage
-            })
+        const search = this.search.toLowerCase()
+        const filteredCrates = this.allCrates.map(crate => {
+          if (crate.name.toLowerCase().includes(search)) {
+            return crate
           }
+
+          const loots = crate.loots.filter(loot => {
+            if (this.filter.hideBlueprints && loot.blueprint) {
+              return false
+            }
+
+            if (this.filter.hideMiscCategory && loot.category === 'Misc') {
+              return false
+            }
+
+            if (search && !loot.name.toLowerCase().includes(search)) {
+              return false
+            }
+
+            return true
+          })
 
           return {
             ...crate,
             loots
           }
-        })
+        }).filter(crate => crate.loots.length)
+
+        if (this.filter.orderByChance) {
+          filteredCrates.sort((a, b) => {
+            const aChance = a.loots.reduce((acc, loot) => acc + loot.chance, 0)
+            const bChance = b.loots.reduce((acc, loot) => acc + loot.chance, 0)
+            return bChance - aChance
+          })
+        }
+
+        return filteredCrates
       }
     }
   },
-  watch: {
-    search() {
-      this.getSearchInput()
-    }
-  },
   methods: {
-    getSearchInput: debounce(function () {
-      this.searchInput = this.search
-    }, 200),
     openModal(crate) {
       this.selectedCrate = crate
       this.$refs.modal.open()
@@ -189,17 +194,21 @@ export default {
   display: flex;
   align-items: center;
   flex-flow: wrap;
+  gap: 8px;
 }
 
 .search {
   display: flex;
   align-content: center;
-  flex: 0 0 300px;
-  margin-right: 16px;
+  width: 100%;
+  max-width: 100%;
+
+  @media (min-width: 768px) {
+    max-width: 300px;
+  }
 
   .search-input {
     position: relative;
-    max-width: 300px;
     width: 100%;
 
     input {

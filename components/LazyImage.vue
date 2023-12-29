@@ -1,69 +1,80 @@
 <script>
+import {computed, h, onBeforeUnmount, onMounted, reactive, ref} from "vue"
+
 export default {
   name: 'LazyImage',
   props: {
     src: {
-      type: String
+      type: String,
+      required: true
     },
     alt: {
-      type: String
+      type: String,
+      required: true
     },
     srcPlaceholder: {
       type: String,
-      default: '/lazy-image.png'
+      default: '/images/lazy-image.png'
     }
   },
   inheritAttrs: false,
-  data: () => ({
-    observer: null,
-    intersected: false,
-    loaded: false
-  }),
-  computed: {
-    srcImage () {
-      return this.intersected && this.src ? this.src : this.srcPlaceholder
-    }
-  },
-  methods: {
-    load () {
-      if (this.$el.getAttribute('src') !== this.srcPlaceholder) {
-        this.loaded = true
+  setup(props, {attrs, slots, emit}) {
+    const root = ref(null);
+    const data = reactive({
+      observer: null,
+      intersected: false,
+      loaded: false
+    })
+
+    const srcImage = computed(() =>
+      data.intersected && props.src ? props.src : props.srcPlaceholder
+    )
+
+    const load = () => {
+      if (
+        root.value &&
+        root.value.getAttribute("src") !== props.srcPlaceholder
+      ) {
+        data.loaded = true;
+        emit("load", root.value)
       }
     }
-  },
-  mounted () {
-    if ('IntersectionObserver' in window) {
-      this.observer = new IntersectionObserver(entries => {
-        const image = entries[0]
-        if (image.isIntersecting) {
-          this.intersected = true
-          this.observer.disconnect()
-        }
-      }, this.intersectionOptions)
-      this.observer.observe(this.$el)
-    } else {
-      // callback
-      this.intersected = true
+    const error = () => emit("error", root.value)
+
+    onMounted(() => {
+      if ("IntersectionObserver" in window) {
+        data.observer = new IntersectionObserver((entries) => {
+          const image = entries[0];
+          if (image.isIntersecting) {
+            data.intersected = true;
+            data.observer.disconnect();
+            emit("intersect");
+          }
+        }, props.intersectionOptions);
+
+        data.observer.observe(root.value);
+      }
+    });
+
+    onBeforeUnmount(() => {
+      if ("IntersectionObserver" in window && data.observer) {
+        data.observer.disconnect();
+      }
+    });
+
+    return () => {
+      return h("img", {
+        ref: root,
+        src: srcImage.value,
+        ...attrs,
+        class: [
+          attrs.class,
+          'lazy-image',
+          {'loaded': data.loaded}
+        ],
+        onLoad: load
+      })
     }
-  },
-  destroyed () {
-    if ('IntersectionObserver' in window) {
-      this.observer.disconnect()
-    }
-  },
-  render (h) {
-    return h('img', {
-      attrs: {
-        src: this.srcImage,
-        srcset: this.srcsetImage
-      },
-      domProps: this.$attrs,
-      class: {
-        'lazy-image': true,
-        loaded: this.loaded
-      },
-      on: { load: this.load }
-    })
   }
 }
 </script>
@@ -72,6 +83,7 @@ export default {
 .lazy-image {
   filter: blur(10px);
   transition: filter 0.3s;
+
   &.loaded {
     filter: blur(0);
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="gradients">
-    <div ref="items" class="items">
-      <div class="items__content">
+    <div ref="items" class="items" :class="{ 'moving' : scroll.enabled }">
+      <TransitionGroup name="list" tag="div" class="items__content">
         <div
           v-for="loot in loots"
           :key="loot.name"
@@ -17,31 +17,35 @@
             <span v-if="loot.amount" class="amount" title="Amount">{{ loot.amount }}</span>
           </div>
           <div class="image">
-            <img class="icon" :src="`/images/items/${loot.image}`"/>
+            <LazyImage class="icon" :src="`/images/items/${loot.image}`" :alt="loot.name"/>
             <div v-if="loot.blueprint" class="blueprint"></div>
           </div>
           <div class="title">{{ loot.name }}</div>
         </div>
-      </div>
+      </TransitionGroup>
     </div>
   </div>
 </template>
 
 <script>
+import LazyImage from "~/components/LazyImage.vue";
+
 export default {
   name: 'LootList',
-  props: ['crate', 'filter'],
+  props: ['loots'],
+  data: () => ({
+    scroll: {
+      enabled: false,
+      clientX: 0,
+      scrollLeft: 0,
+      start: 0,
+      end: false
+    }
+  }),
+  components: {
+    LazyImage
+  },
   computed: {
-    loots() {
-      return this.crate.loots.filter(item => {
-        return (
-          (this.filter.hideBlueprints ? item.blueprint === false : true) &&
-          (this.filter.hideMiscCategory && item.category
-            ? item.category.name !== 'Misc'
-            : true)
-        )
-      })
-    },
     maxPercentage() {
       const percentages = this.loots.map(item => item.percentage)
       return Math.max(...percentages)
@@ -51,11 +55,55 @@ export default {
       return Math.min(...percentages)
     }
   },
+  mounted() {
+    // recalculate right shadow
+    this.scroll.end =
+      this.$refs.items.scrollWidth - this.$refs.items.scrollLeft ===
+      this.$refs.items.clientWidth
+
+    // detect mouse movement for smaller displays
+    this.$refs.items.addEventListener('mousedown', event => {
+      this.scroll.enabled = true
+      this.scroll.scrollLeft = this.$refs.items.scrollLeft
+      this.scroll.start = this.$refs.items.scrollLeft
+      this.scroll.clientX = event.pageX
+    })
+    this.$refs.items.addEventListener('mouseup', () => {
+      this.scroll.enabled = false
+    })
+    this.$refs.items.addEventListener('mouseleave', () => {
+      this.scroll.enabled = false
+    })
+    this.$refs.items.addEventListener('mousemove', event => {
+      event.preventDefault()
+      if (this.scroll.enabled) {
+        this.$refs.items.scrollLeft =
+          this.scroll.scrollLeft + this.scroll.clientX - event.pageX
+        this.scroll.start = this.$refs.items.scrollLeft
+        this.scroll.end =
+          this.$refs.items.scrollWidth - this.$refs.items.scrollLeft ===
+          this.$refs.items.clientWidth
+      }
+    })
+  },
 }
 </script>
 
 <style lang="scss">
 .items {
+  user-select: none;
+  overflow-x: auto;
+  overflow: -moz-scrollbars-none; // FF
+  -ms-overflow-style: none; // IE 10+
+  scrollbar-width: none; // FFF 64
+  &::-webkit-scrollbar {
+    display: none; // Safari and Chrome
+  }
+
+  &.moving {
+    cursor: w-resize;
+  }
+
   &__content {
     display: flex;
     @media screen and (min-width: 1024px) {
