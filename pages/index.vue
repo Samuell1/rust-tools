@@ -27,7 +27,7 @@
         <div v-if="crate.loots.length" class="crate" :key="crate.name">
           <div
             class="name"
-            :style="{ backgroundImage: `url(${crate.image})` }"
+            :style="{ backgroundImage: `url(/images/crates/${crate.name.toLowerCase().replace(/ /g, '-')}.png)` }"
             @click="openModal(crate)"
           >
             <span>{{ crate.name }}</span>
