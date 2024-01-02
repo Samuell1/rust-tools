@@ -92,7 +92,8 @@ const render = () => h("img", {
     'lazy-image',
     {'loaded': data.loaded}
   ],
-  onLoad: load
+  onLoad: load,
+  onError: error
 })
 
 defineExpose({render})
