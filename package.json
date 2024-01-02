@@ -13,7 +13,6 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "lodash.debounce": "^4.0.8",
     "sass": "^1.69.5"
   },
   "devDependencies": {
