@@ -1,83 +1,107 @@
-<script>
-import {computed, h, onBeforeUnmount, onMounted, reactive, ref} from "vue"
+<script setup lang="ts">
+import {
+  computed,
+  defineEmits,
+  defineExpose,
+  defineProps,
+  h,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  useAttrs
+} from "vue"
 
-export default {
-  name: 'LazyImage',
-  props: {
-    src: {
-      type: String,
-      required: true
-    },
-    alt: {
-      type: String,
-      required: true
-    },
-    srcPlaceholder: {
-      type: String,
-      default: '/images/lazy-image.png'
-    }
+defineOptions({
+  inheritAttrs: true
+})
+
+const emit = defineEmits(['load', 'error', 'intersect'])
+const attrs = useAttrs()
+const props = defineProps({
+  src: {
+    type: String,
+    required: true
   },
-  inheritAttrs: false,
-  setup(props, {attrs, slots, emit}) {
-    const root = ref(null);
-    const data = reactive({
-      observer: null,
-      intersected: false,
-      loaded: false
+  alt: {
+    type: String,
+    required: true
+  },
+  srcPlaceholder: {
+    type: String,
+    default: '/images/lazy-image.png'
+  },
+  intersectionOptions: {
+    type: Object,
+    default: () => ({
+      rootMargin: '0px',
+      threshold: 0.1
     })
+  }
+})
+const root = ref(null);
+const data = reactive({
+  observer: null,
+  intersected: false,
+  loaded: false
+})
 
-    const srcImage = computed(() =>
-      data.intersected && props.src ? props.src : props.srcPlaceholder
-    )
+const srcImage = computed(() =>
+  data.intersected && props.src ? props.src : props.srcPlaceholder
+)
 
-    const load = () => {
-      if (
-        root.value &&
-        root.value.getAttribute("src") !== props.srcPlaceholder
-      ) {
-        data.loaded = true;
-        emit("load", root.value)
-      }
-    }
-    const error = () => emit("error", root.value)
-
-    onMounted(() => {
-      if ("IntersectionObserver" in window) {
-        data.observer = new IntersectionObserver((entries) => {
-          const image = entries[0];
-          if (image.isIntersecting) {
-            data.intersected = true;
-            data.observer.disconnect();
-            emit("intersect");
-          }
-        }, props.intersectionOptions);
-
-        data.observer.observe(root.value);
-      }
-    });
-
-    onBeforeUnmount(() => {
-      if ("IntersectionObserver" in window && data.observer) {
-        data.observer.disconnect();
-      }
-    });
-
-    return () => {
-      return h("img", {
-        ref: root,
-        src: srcImage.value,
-        ...attrs,
-        class: [
-          attrs.class,
-          'lazy-image',
-          {'loaded': data.loaded}
-        ],
-        onLoad: load
-      })
-    }
+const load = () => {
+  if (
+    root.value &&
+    root.value.getAttribute("src") !== props.srcPlaceholder
+  ) {
+    data.loaded = true
+    emit("load", root.value)
   }
 }
+const error = () => emit("error", root.value)
+
+onMounted(() => {
+  if ("IntersectionObserver" in window) {
+    data.observer = new IntersectionObserver((entries) => {
+      const image = entries[0]
+      if (image.isIntersecting) {
+        data.intersected = true
+        data.observer.disconnect()
+        emit("intersect")
+      }
+    }, props.intersectionOptions)
+
+    data.observer.observe(root.value)
+  }
+})
+
+onBeforeUnmount(() => {
+  if ("IntersectionObserver" in window && data.observer) {
+    data.observer.disconnect()
+  }
+})
+
+
+const render = () => h("img", {
+  ref: root,
+  src: srcImage.value,
+  ...attrs,
+  class: [
+    attrs.class,
+    'lazy-image',
+    {'loaded': data.loaded}
+  ],
+  onLoad: load
+})
+
+defineExpose({render})
+
 </script>
+
+<template>
+  <render/>
+</template>
 
 <style lang="scss">
 .lazy-image {
